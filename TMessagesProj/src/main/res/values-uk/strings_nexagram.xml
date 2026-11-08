@@ -45,4 +45,7 @@
     <string name="NexaSendAsRound">Надіслати кружечком</string>
     <string name="NexaRoundVideo">Кружечок з відео в галереї</string>
     <string name="NexaRoundVideoInfo">Виберіть одне відео в меню вкладень і затисніть кнопку надсилання, щоб надіслати його кружечком. До 60 секунд, відео обрізається до квадрата.</string>
+    <string name="NexaSelectAll">Вибрати всі</string>
+    <string name="NexaSelectAllChats">Вибрати всі чати</string>
+    <string name="NexaSelectAllInfo">У режимі виділення (довге натискання на чат) у меню ⋮ з\'явиться «Вибрати всі»: потім можна разом прочитати, вимкнути сповіщення або архівувати. Великі виділення обробляються невеликими частинами з паузами, щоб Telegram не обмежив акаунт.</string>
 </resources>

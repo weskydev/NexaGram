@@ -46,4 +46,7 @@
     <string name="NexaSendAsRound">Send as video message</string>
     <string name="NexaRoundVideo">Video message from gallery</string>
     <string name="NexaRoundVideoInfo">Select one video in the attachment menu and hold the send button to send it as a round video message. Up to 60 seconds, cropped to a square.</string>
+    <string name="NexaSelectAll">Select all</string>
+    <string name="NexaSelectAllChats">Select all chats</string>
+    <string name="NexaSelectAllInfo">In chat selection mode (long-press a chat), the ⋮ menu gets \"Select all\": then read, mute or archive them all at once. Big selections are read and muted in small batches with pauses, so Telegram doesn\'t limit your account.</string>
 </resources>

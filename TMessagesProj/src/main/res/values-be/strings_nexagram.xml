@@ -45,4 +45,7 @@
     <string name="NexaSendAsRound">Адправіць кружком</string>
     <string name="NexaRoundVideo">Кружок з відэа ў галерэі</string>
     <string name="NexaRoundVideoInfo">Выберыце адно відэа ў меню далучэнняў і зацісніце кнопку адпраўкі, каб адправіць яго кружком. Да 60 секунд, відэа абразаецца да квадрата.</string>
+    <string name="NexaSelectAll">Выбраць усе</string>
+    <string name="NexaSelectAllChats">Выбраць усе чаты</string>
+    <string name="NexaSelectAllInfo">У рэжыме вылучэння (доўгі націск на чат) у меню ⋮ з\'явіцца «Выбраць усе»: потым можна адразу прачытаць, выключыць гук або архіваваць. Вялікія вылучэнні апрацоўваюцца невялікімі часткамі з паўзамі, каб Telegram не абмежаваў акаўнт.</string>
 </resources>

@@ -678,6 +678,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private Runnable shareLinkSearchRunnable;
 
     private ArrayList<Long> selectedDialogs = new ArrayList<>();
+    private View nexaSelectAllItem; // NexaGram
     public boolean notify = true;
     public int scheduleDate;
     public int scheduleRepeatPeriod;
@@ -3936,6 +3937,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         undoView.showWithAction(did, UndoView.ACTION_REMOVED_FROM_FOLDER, neverShow.size(), filter, null, null);
                     }
                     hideActionMode(false);
+                } else if (id == app.nexagram.NexaSelectAll.ITEM_ID) { // NexaGram
+                    nexaSelectAll();
+                } else if ((id == read && canReadCount != 0 || id == mute && selectedDialogs.size() > 1) && app.nexagram.NexaSelectAll.bulk(DialogsActivity.this, selectedDialogs, id == read, canUnmuteCount != 0)) { // NexaGram: big selections in batches
+                    hideActionMode(true);
                 } else if (id == pin || id == read || id == delete || id == clear || id == mute || id == archive || id == block || id == archive2 || id == pin2) {
                     performSelectedDialogsAction(selectedDialogs, id, true, false);
                 }
@@ -6680,6 +6685,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         readItem = otherItem.addSubItem(read, R.drawable.msg_markread, LocaleController.getString(R.string.MarkAsRead));
         clearItem = otherItem.addSubItem(clear, R.drawable.msg_clear, LocaleController.getString(R.string.ClearHistory));
         blockItem = otherItem.addSubItem(block, R.drawable.msg_block, LocaleController.getString(R.string.BlockUser));
+        if (tag == null) { // NexaGram
+            nexaSelectAllItem = otherItem.addSubItem(app.nexagram.NexaSelectAll.ITEM_ID, R.drawable.msg_select, LocaleController.getString(R.string.NexaSelectAll));
+        }
 
         muteItem.setOnLongClickListener(e -> {
             performSelectedDialogsAction(selectedDialogs, mute, true, true);
@@ -9683,6 +9691,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateCounters(boolean hide) {
+        if (nexaSelectAllItem != null) { // NexaGram
+            nexaSelectAllItem.setVisibility(app.nexagram.NexaSelectAll.isEnabled() ? View.VISIBLE : View.GONE);
+        }
         int canClearHistoryCount = 0;
         int canDeleteCount = 0;
         int canUnpinCount = 0;
@@ -9940,6 +9951,27 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return false;
         }
         return true;
+    }
+
+    // NexaGram: adds every chat of the current list to the selection
+    private void nexaSelectAll() {
+        if (viewPages == null || viewPages[0] == null) {
+            return;
+        }
+        ArrayList<TLRPC.Dialog> shown = getDialogsArray(currentAccount, viewPages[0].dialogsType, folderId, dialogsListFrozen);
+        if (app.nexagram.NexaSelectAll.selectAll(shown, selectedDialogs) == 0) {
+            return;
+        }
+        RecyclerListView list = viewPages[0].listView;
+        for (int i = 0; i < list.getChildCount(); i++) {
+            View child = list.getChildAt(i);
+            if (child instanceof DialogCell) {
+                DialogCell cell = (DialogCell) child;
+                cell.setChecked(selectedDialogs.contains(cell.getDialogId()), true);
+            }
+        }
+        updateCounters(false);
+        selectedDialogsCountTextView.setNumber(selectedDialogs.size(), true);
     }
 
     private void showOrUpdateActionMode(long dialogId, View cell) {

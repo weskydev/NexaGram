@@ -30,6 +30,7 @@ public class NexaSectionActivity extends UniversalFragment {
     private static final int ID_BRAND_COLORS = 1;
     private static final int ID_DESIGN_RESET = 4;
     private static final int ID_ROUND_VIDEO = 5;
+    private static final int ID_SELECT_ALL = 6;
     /** Design switches use ids ID_DESIGN_FIRST + index in NexaDesign.ALL. */
     private static final int ID_DESIGN_FIRST = 100;
     private static final int[] DESIGN_TITLES = {
@@ -83,6 +84,9 @@ public class NexaSectionActivity extends UniversalFragment {
         } else if (section == CHATS) {
             items.add(UItem.asCheck(ID_ROUND_VIDEO, getString(R.string.NexaRoundVideo)).setChecked(NexaRoundVideo.isEnabled()));
             items.add(UItem.asShadow(getString(R.string.NexaRoundVideoInfo)));
+        } else if (section == CHAT_LIST) {
+            items.add(UItem.asCheck(ID_SELECT_ALL, getString(R.string.NexaSelectAllChats)).setChecked(NexaSelectAll.isEnabled()));
+            items.add(UItem.asShadow(getString(R.string.NexaSelectAllInfo)));
         } else {
             // features for this section are on the way (see nexagram/FEATURES.md)
             items.add(UItem.asShadow(getString(R.string.NexaFeaturesSoon)));
@@ -104,6 +108,9 @@ public class NexaSectionActivity extends UniversalFragment {
             }
         } else if (item.id == ID_ROUND_VIDEO) {
             NexaDesign.set(NexaRoundVideo.KEY, !NexaRoundVideo.isEnabled());
+            listView.adapter.update(true);
+        } else if (item.id == ID_SELECT_ALL) {
+            NexaDesign.set(NexaSelectAll.KEY, !NexaSelectAll.isEnabled());
             listView.adapter.update(true);
         } else if (item.id == ID_DESIGN_RESET) {
             boolean restart = false;
