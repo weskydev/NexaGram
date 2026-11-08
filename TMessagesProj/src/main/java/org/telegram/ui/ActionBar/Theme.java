@@ -1820,6 +1820,7 @@ public class Theme {
                 themeAccents.add(themeAccent);
             }
             accentBaseColor = themeAccentsMap.get(0).accentColor;
+            app.nexagram.NexaTheme.recolor(this); // NexaGram
         }
 
         @UiThread
@@ -3595,6 +3596,7 @@ public class Theme {
 
     static {
         defaultColors = ThemeColors.createDefaultColors();
+        app.nexagram.NexaTheme.recolor(defaultColors); // NexaGram
 
         fallbackKeys.put(key_iv_background, key_windowBackgroundWhite);
         fallbackKeys.put(key_iv_backgroundGray, key_windowBackgroundGray);
@@ -7728,6 +7730,7 @@ public class Theme {
                 FileLog.e(e);
             }
         }
+        if (assetName != null) app.nexagram.NexaTheme.recolor(stringMap); // NexaGram: built-in themes only
         return stringMap;
     }
 

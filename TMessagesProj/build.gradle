@@ -147,6 +147,10 @@ android {
 
         multiDexEnabled true
 
+        // NexaGram: API keys live in local.properties (not in git)
+        buildConfigField "int", "NEXA_APP_ID", (getProps("NEXA_APP_ID") ?: "0")
+        buildConfigField "String", "NEXA_APP_HASH", "\"" + (getProps("NEXA_APP_HASH") ?: "") + "\""
+
         externalNativeBuild {
             cmake {
                 version '3.22.1'

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NexaGram: overrides Telegram's default launcher icon (TMessagesProj/res stays untouched) -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/nexa_icon_background" />
+    <foreground android:drawable="@mipmap/nexa_icon_foreground" />
+    <monochrome android:drawable="@mipmap/nexa_icon_monochrome" />
+</adaptive-icon>
