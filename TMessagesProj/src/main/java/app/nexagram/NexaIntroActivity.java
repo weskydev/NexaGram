@@ -652,8 +652,9 @@ public class NexaIntroActivity extends BaseFragment implements NotificationCente
 
         private void drawWave(Canvas canvas, int w, float edge, float y, float amp, float shift, boolean top, int color) {
             wave.reset();
-            float x0 = -dp(40) + shift;
-            float x1 = w + dp(40) + shift;
+            // waves drift up to ~70dp while paging, so keep them wider than that
+            float x0 = -dp(120) + shift;
+            float x1 = w + dp(120) + shift;
             float span = x1 - x0;
             wave.moveTo(x0, edge);
             wave.lineTo(x0, y);
