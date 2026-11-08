@@ -806,6 +806,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         items.add(SettingCell.Factory.of(10, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_language, getString(R.string.SettingsLanguage), LocaleController.getCurrentLanguageName()));
 
         items.add(UItem.asShadow(null));
+        items.add(SettingCell.Factory.of(app.nexagram.NexaSettingsActivity.SETTINGS_ROW_ID, 0xFF9B85FF, 0xFF6A4FF0, R.drawable.nexa_logo, getString(R.string.NexaSettings))); // NexaGram
+        items.add(UItem.asShadow(null)); // NexaGram
         if (!walletAbove && getMessagesController().config.walletAvailable.get()) {
             final GramWallet wallet = GramWallet.getInstance(currentAccount);
             items.add(SettingCell.Factory.of(25, 0, 0, Theme.isCurrentThemeDark() ? R.drawable.settings_wallet_dark : R.drawable.settings_wallet, TextCell.applyNewSpanTimed(getString(R.string.WalletAttachMoney), 1790679020), null, wallet.getBalance() > 0 ? GramWallet.formatGrams(wallet.getBalance()) : null));
@@ -914,6 +916,10 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             if (item.object != null) {
                 search.addRecent(item.object);
             }
+            return;
+        }
+        if (item.id == app.nexagram.NexaSettingsActivity.SETTINGS_ROW_ID) { // NexaGram
+            presentSettingFragment(new app.nexagram.NexaSettingsActivity());
             return;
         }
         switch (item.id) {

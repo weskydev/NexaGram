@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NexaSettings">NexaGram</string>
+    <string name="NexaAppearance">Афармленне</string>
+    <string name="NexaBrandColors">Колеры NexaGram</string>
+    <string name="NexaBrandColorsInfo">Фіялетавы акцэнт NexaGram ва ўсіх убудаваных тэмах. Выключыце, каб вярнуць класічны сіні Telegram.</string>
+    <string name="NexaFeatures">Функцыі</string>
+    <string name="NexaFeaturesSoon">Тут з\'явяцца новыя функцыі NexaGram.</string>
+    <string name="NexaAbout">Пра праграму</string>
+    <string name="NexaVersion">Версія</string>
+    <string name="NexaSourceCode">Зыходны код</string>
+    <string name="NexaAboutInfo">NexaGram — неафіцыйная праграма на аснове адкрытага зыходнага кода Telegram і Telegram API.</string>
+    <string name="NexaRestartTitle">Патрэбны перазапуск</string>
+    <string name="NexaRestartText">Колеры зменяцца пасля перазапуску NexaGram. Перазапусціць зараз?</string>
+    <string name="NexaRestart">Перазапусціць</string>
+    <string name="NexaLater">Пазней</string>
+    <string name="NexaIntro1Title">NexaGram</string>
+    <string name="NexaIntro1Text">Больш, чым мэсэнджар. Неафіцыйны кліент Telegram з пашыранымі магчымасцямі.</string>
+    <string name="NexaIntro2Title">Хуткі</string>
+    <string name="NexaIntro2Text">Усе вашы чаты Telegram — хутка, плаўна і без лішняга.</string>
+    <string name="NexaIntro3Title">Бясплатны</string>
+    <string name="NexaIntro3Text">Ніякіх падпісак ад NexaGram. Безлімітнае воблака Telegram для чатаў і файлаў.</string>
+    <string name="NexaIntro4Title">Больш функцый</string>
+    <string name="NexaIntro4Text">Магчымасці, якіх няма ў звычайным Telegram, і яны ўвесь час дадаюцца.</string>
+    <string name="NexaIntro5Title">Бяспечны</string>
+    <string name="NexaIntro5Text">Тыя ж абароненыя серверы і шыфраванне Telegram. Адкрыты зыходны код.</string>
+    <string name="NexaIntro6Title">Заўсёды з вамі</string>
+    <string name="NexaIntro6Text">Ваш акаўнт Telegram і ўсе чаты — на ўсіх прыладах.</string>
+</resources>

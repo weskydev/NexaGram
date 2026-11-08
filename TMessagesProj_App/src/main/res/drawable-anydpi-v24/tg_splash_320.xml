@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NexaGram: launch splash (Android 12+). Overrides Telegram's animated plane;
+     same layers as the adaptive launcher icon, the system masks it to a circle. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/nexa_icon_background" />
+    <item android:drawable="@mipmap/nexa_icon_foreground" />
+</layer-list>

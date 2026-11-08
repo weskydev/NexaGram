@@ -15,4 +15,16 @@
     <string name="NexaRestartText">Colors will change after NexaGram restarts. Restart now?</string>
     <string name="NexaRestart">Restart</string>
     <string name="NexaLater">Later</string>
+    <string name="NexaIntro1Title">NexaGram</string>
+    <string name="NexaIntro1Text">More than a messenger. An unofficial Telegram client with extra features.</string>
+    <string name="NexaIntro2Title">Fast</string>
+    <string name="NexaIntro2Text">All your Telegram chats: fast, smooth and clutter-free.</string>
+    <string name="NexaIntro3Title">Free</string>
+    <string name="NexaIntro3Text">No NexaGram subscriptions. Unlimited Telegram cloud for your chats and files.</string>
+    <string name="NexaIntro4Title">More features</string>
+    <string name="NexaIntro4Text">Features you won’t find in regular Telegram, with new ones added all the time.</string>
+    <string name="NexaIntro5Title">Secure</string>
+    <string name="NexaIntro5Text">The same secure Telegram servers and encryption. Open source code.</string>
+    <string name="NexaIntro6Title">Everywhere with you</string>
+    <string name="NexaIntro6Text">Your Telegram account and all your chats on all your devices.</string>
 </resources>

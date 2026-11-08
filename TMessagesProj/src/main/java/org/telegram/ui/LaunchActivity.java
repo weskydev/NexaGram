@@ -1109,7 +1109,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (LoginActivity.loadCurrentState(false, currentAccount).getInt("currentViewNum", 0) != 0) {
             return new LoginActivity();
         }
-        return new IntroActivity();
+        return new app.nexagram.NexaIntroActivity(); // NexaGram: our welcome screen
     }
 
     public FireworksOverlay getFireworksOverlay() {
@@ -1278,7 +1278,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 layersActionBarLayout.rebuildLogout();
                 rightActionBarLayout.rebuildLogout();
             }
-            presentFragment(new IntroActivity().setOnLogout());
+            presentFragment(new app.nexagram.NexaIntroActivity().setOnLogout()); // NexaGram
         }
     }
 

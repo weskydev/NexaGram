@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NexaSettings">NexaGram</string>
+    <string name="NexaAppearance">Оформлення</string>
+    <string name="NexaBrandColors">Кольори NexaGram</string>
+    <string name="NexaBrandColorsInfo">Фіолетовий акцент NexaGram у всіх вбудованих темах. Вимкніть, щоб повернути класичний синій Telegram.</string>
+    <string name="NexaFeatures">Функції</string>
+    <string name="NexaFeaturesSoon">Тут з\'являться нові функції NexaGram.</string>
+    <string name="NexaAbout">Про застосунок</string>
+    <string name="NexaVersion">Версія</string>
+    <string name="NexaSourceCode">Вихідний код</string>
+    <string name="NexaAboutInfo">NexaGram — неофіційний застосунок на основі відкритого вихідного коду Telegram і Telegram API.</string>
+    <string name="NexaRestartTitle">Потрібен перезапуск</string>
+    <string name="NexaRestartText">Кольори зміняться після перезапуску NexaGram. Перезапустити зараз?</string>
+    <string name="NexaRestart">Перезапустити</string>
+    <string name="NexaLater">Пізніше</string>
+    <string name="NexaIntro1Title">NexaGram</string>
+    <string name="NexaIntro1Text">Більше, ніж месенджер. Неофіційний клієнт Telegram з розширеними можливостями.</string>
+    <string name="NexaIntro2Title">Швидкий</string>
+    <string name="NexaIntro2Text">Усі ваші чати Telegram — швидко, плавно і без зайвого.</string>
+    <string name="NexaIntro3Title">Безкоштовний</string>
+    <string name="NexaIntro3Text">Жодних підписок від NexaGram. Безлімітна хмара Telegram для чатів і файлів.</string>
+    <string name="NexaIntro4Title">Більше функцій</string>
+    <string name="NexaIntro4Text">Можливості, яких немає у звичайному Telegram, і вони постійно додаються.</string>
+    <string name="NexaIntro5Title">Безпечний</string>
+    <string name="NexaIntro5Text">Ті самі захищені сервери та шифрування Telegram. Відкритий вихідний код.</string>
+    <string name="NexaIntro6Title">Завжди з вами</string>
+    <string name="NexaIntro6Text">Ваш акаунт Telegram і всі чати — на всіх пристроях.</string>
+</resources>

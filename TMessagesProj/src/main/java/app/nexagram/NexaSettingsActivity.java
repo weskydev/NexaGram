@@ -21,6 +21,8 @@ import java.util.ArrayList;
 public class NexaSettingsActivity extends UniversalFragment {
 
     public static final String SOURCE_URL = "https://github.com/weskydev/NexaGram";
+    /** Row id in Telegram's main Settings list; far away from Telegram's own ids. */
+    public static final int SETTINGS_ROW_ID = 9001;
 
     private static final int ID_BRAND_COLORS = 1;
     private static final int ID_VERSION = 2;
@@ -52,6 +54,9 @@ public class NexaSettingsActivity extends UniversalFragment {
             NexaTheme.setEnabled(!NexaTheme.isEnabled());
             listView.adapter.update(true);
             askRestart();
+        } else if (item.id == ID_VERSION && BuildVars.DEBUG_VERSION) {
+            // debug builds only: preview the welcome screen without logging out
+            presentFragment(new NexaIntroActivity());
         } else if (item.id == ID_SOURCE) {
             Browser.openUrl(getParentActivity(), SOURCE_URL);
         }

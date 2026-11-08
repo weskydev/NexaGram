@@ -14,4 +14,16 @@
     <string name="NexaRestartText">Цвета поменяются после перезапуска NexaGram. Перезапустить сейчас?</string>
     <string name="NexaRestart">Перезапустить</string>
     <string name="NexaLater">Позже</string>
+    <string name="NexaIntro1Title">NexaGram</string>
+    <string name="NexaIntro1Text">Больше, чем мессенджер. Неофициальный клиент Telegram с расширенными возможностями.</string>
+    <string name="NexaIntro2Title">Быстрый</string>
+    <string name="NexaIntro2Text">Все ваши чаты Telegram — быстро, плавно и без лишнего.</string>
+    <string name="NexaIntro3Title">Бесплатный</string>
+    <string name="NexaIntro3Text">Никаких подписок от NexaGram. Безлимитное облако Telegram для чатов и файлов.</string>
+    <string name="NexaIntro4Title">Больше функций</string>
+    <string name="NexaIntro4Text">Возможности, которых нет в обычном Telegram, и они постоянно добавляются.</string>
+    <string name="NexaIntro5Title">Безопасный</string>
+    <string name="NexaIntro5Text">Те же защищённые серверы и шифрование Telegram. Открытый исходный код.</string>
+    <string name="NexaIntro6Title">Везде с вами</string>
+    <string name="NexaIntro6Text">Ваш аккаунт Telegram и все чаты — на всех устройствах.</string>
 </resources>

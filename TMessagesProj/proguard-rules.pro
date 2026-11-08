@@ -79,3 +79,7 @@
 # Use -keep to explicitly keep any other classes shrinking would remove
 #-dontoptimize
 #-dontobfuscate
+# NexaGram: NexaStrings reads R.string.Nexa* ids by reflection
+-keepclassmembers class org.telegram.messenger.R$string {
+    public static int Nexa*;
+}
