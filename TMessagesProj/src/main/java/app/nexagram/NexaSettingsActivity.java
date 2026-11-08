@@ -64,6 +64,11 @@ public class NexaSettingsActivity extends UniversalFragment {
 
     @Override
     protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
+        if (item.id == ID_VERSION && BuildVars.DEBUG_VERSION) {
+            // debug builds only: Telegram's original welcome screen, for side-by-side comparison
+            presentFragment(new org.telegram.ui.IntroActivity());
+            return true;
+        }
         return false;
     }
 
