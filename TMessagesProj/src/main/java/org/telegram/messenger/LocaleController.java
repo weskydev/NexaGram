@@ -4781,6 +4781,10 @@ public class LocaleController {
 
     @Nullable
     private String getStringV2(String key, @StringRes int stringRes, String fallback) {
+        return app.nexagram.NexaStrings.brand(getStringV2Raw(key, stringRes, fallback)); // NexaGram
+    }
+
+    private String getStringV2Raw(String key, @StringRes int stringRes, String fallback) {
         final Context context = ApplicationLoader.applicationContext;
         String value;
 

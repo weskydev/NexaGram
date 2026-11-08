@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NexaGram strings. Kept apart from Telegram's strings.xml so upstream updates don't conflict. -->
+<resources>
+    <string name="NexaSettings">NexaGram</string>
+    <string name="NexaAppearance">Appearance</string>
+    <string name="NexaBrandColors">NexaGram colors</string>
+    <string name="NexaBrandColorsInfo">Violet NexaGram accent in all built-in themes. Turn it off to get the classic Telegram blue back.</string>
+    <string name="NexaFeatures">Features</string>
+    <string name="NexaFeaturesSoon">New NexaGram features will show up here.</string>
+    <string name="NexaAbout">About</string>
+    <string name="NexaVersion">Version</string>
+    <string name="NexaSourceCode">Source code</string>
+    <string name="NexaAboutInfo">NexaGram is an unofficial app built on the open Telegram source code and the Telegram API.</string>
+    <string name="NexaRestartTitle">Restart needed</string>
+    <string name="NexaRestartText">Colors will change after NexaGram restarts. Restart now?</string>
+    <string name="NexaRestart">Restart</string>
+    <string name="NexaLater">Later</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NexaSettings">NexaGram</string>
+    <string name="NexaAppearance">Оформление</string>
+    <string name="NexaBrandColors">Цвета NexaGram</string>
+    <string name="NexaBrandColorsInfo">Фиолетовый акцент NexaGram во всех встроенных темах. Выключите, чтобы вернуть классический синий Telegram.</string>
+    <string name="NexaFeatures">Функции</string>
+    <string name="NexaFeaturesSoon">Здесь появятся новые функции NexaGram.</string>
+    <string name="NexaAbout">О приложении</string>
+    <string name="NexaVersion">Версия</string>
+    <string name="NexaSourceCode">Исходный код</string>
+    <string name="NexaAboutInfo">NexaGram — неофициальное приложение на основе открытого исходного кода Telegram и Telegram API.</string>
+    <string name="NexaRestartTitle">Нужен перезапуск</string>
+    <string name="NexaRestartText">Цвета поменяются после перезапуска NexaGram. Перезапустить сейчас?</string>
+    <string name="NexaRestart">Перезапустить</string>
+    <string name="NexaLater">Позже</string>
+</resources>
