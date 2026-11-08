@@ -523,6 +523,8 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
                 if (view instanceof ViewGroup && ((ViewGroup) view).getChildAt(0) instanceof ContactsEmptyView) {
                     if (floatingButton != null) {
                         floatingButton.performClick();
+                    } else if (hasMainTabs) {
+                        app.nexagram.NexaMainTabs.openNewContact(ContactsActivity.this); // NexaGram
                     }
                     return;
                 }
@@ -759,7 +761,7 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
             }
         });
 
-        if (!createSecretChat && !returnAsResult) {
+        if (!createSecretChat && !returnAsResult && !app.nexagram.NexaMainTabs.replacesFloatingButtons(hasMainTabs)) { // NexaGram
             floatingButton = new FragmentFloatingButton(context, resourceProvider);
             contentView.addView(floatingButton, FragmentFloatingButton.createDefaultLayoutParams());
             floatingButton.setOnClickListener(v -> {

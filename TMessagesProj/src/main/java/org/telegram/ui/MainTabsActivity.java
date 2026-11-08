@@ -121,6 +121,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
     private UpdateLayoutWrapper updateLayoutWrapper;
     private FrameLayout tabsViewWrapper;
+    private View nexaComposeButton; // NexaGram
     private MainTabsLayout tabsView;
     private BlurredBackgroundDrawable tabsViewBackground;
     private View fadeView;
@@ -399,6 +400,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         tabsViewWrapper = new FrameLayout(context);
         tabsViewWrapper.setOnClickListener(v -> {});
         tabsViewWrapper.addView(tabsView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, DialogsActivity.MAIN_TABS_HEIGHT_WITH_MARGINS, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
+        nexaComposeButton = app.nexagram.NexaMainTabs.attach(this, tabsViewWrapper, tabsView); // NexaGram
         tabsViewWrapper.setClipToPadding(false);
         contentView.addView(tabsViewWrapper, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
 
@@ -871,6 +873,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             GlassTabView tab = tabs[a];
             tab.setSelected(indexToPosition(a) == position, animated);
         }
+        app.nexagram.NexaMainTabs.setContactsMode(nexaComposeButton, position == POSITION_CONTACTS, animated); // NexaGram
     }
 
     public void setGestureSelectedOverride(float animatedPosition, boolean allow) {
@@ -1106,6 +1109,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         tabsView.setEnabled(factor > 1);
         tabsView.setAlpha(factor);
         tabsView.setVisibility(factor > 0 ? View.VISIBLE : View.GONE);
+        app.nexagram.NexaMainTabs.sync(nexaComposeButton, tabsView); // NexaGram
     }
 
     private void checkUi_callTabVisible(boolean callTabsVisible, boolean animated) {

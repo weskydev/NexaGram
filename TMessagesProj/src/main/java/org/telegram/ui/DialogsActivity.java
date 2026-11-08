@@ -3188,6 +3188,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             proxyMenuSubItem.setTextAndIcon(getString(R.string.MenuProxyTitle), 0, proxyDrawable);
             proxyMenuSubItem.setContentDescription(getString(R.string.ProxySettings));
 
+            if (app.nexagram.NexaMainTabs.replacesFloatingButtons(hasMainTabs)) { // NexaGram: story camera in the top bar
+                ActionBarMenuItem nexaCameraItem = menu.addItem(app.nexagram.NexaMainTabs.CAMERA_ITEM_ID, app.nexagram.NexaMainTabs.cameraIcon());
+                nexaCameraItem.setContentDescription(getString(R.string.StoryPrivacyButtonPost));
+                nexaCameraItem.setOnClickListener(v -> openStoriesRecorder());
+            }
             passcodeItem = menu.addItem(1, R.drawable.outline_header_lock_24);
             passcodeItem.setContentDescription(getString(R.string.AccDescrPasscodeLock));
 
@@ -3988,6 +3993,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             viewPage.listView.setAnimateEmptyView(true, RecyclerListView.EMPTY_VIEW_ANIMATION_TYPE_ALPHA);
             viewPage.listView.setClipToPadding(false);
             viewPage.listView.setPivotY(0);
+            if (initialDialogsType == DIALOGS_TYPE_DEFAULT) {
+                app.nexagram.NexaChatList.install(viewPage.listView); // NexaGram
+            }
             if (initialDialogsType == DIALOGS_TYPE_BOT_REQUEST_PEER) {
                 ThemeBind.backgroundColor(viewPage.listView, Theme.key_windowBackgroundGray, getResourceProvider());
             }
@@ -4677,7 +4685,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         });
 
-        if (!isArchive() && initialDialogsType == DIALOGS_TYPE_DEFAULT) {
+        if (!isArchive() && initialDialogsType == DIALOGS_TYPE_DEFAULT && !app.nexagram.NexaMainTabs.replacesFloatingButtons(hasMainTabs)) { // NexaGram: no floating camera to point at
             if (MessagesController.getInstance(currentAccount).getMainSettings().getBoolean("storyhint", true)) {
                 storyHint = new HintView2(context, HintView2.DIRECTION_RIGHT)
                         .setRounding(8)
@@ -8780,7 +8788,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateFloatingButtonVisibility(boolean animated) {
-        final boolean isVisible = !(onlySelect && initialDialogsType != 10 || folderId != 0 || communityId != 0 || inPreviewMode || (searching && !onlySelect) || floatingButtonHidden);
+        final boolean isVisible = !(onlySelect && initialDialogsType != 10 || folderId != 0 || communityId != 0 || inPreviewMode || (searching && !onlySelect) || floatingButtonHidden)
+                && !app.nexagram.NexaMainTabs.replacesFloatingButtons(hasMainTabs); // NexaGram: compose lives in the tab bar
 
         if (floatingButton3 != null) {
             floatingButton3.setButtonVisible(isVisible, animated);
