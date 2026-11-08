@@ -27,6 +27,13 @@ public class NexaSettingsActivity extends UniversalFragment {
     private static final int ID_BRAND_COLORS = 1;
     private static final int ID_VERSION = 2;
     private static final int ID_SOURCE = 3;
+    private static final int ID_DESIGN_RESET = 4;
+    /** Design switches use ids ID_DESIGN_FIRST + index in NexaDesign.ALL. */
+    private static final int ID_DESIGN_FIRST = 100;
+    private static final int[] DESIGN_TITLES = {
+            R.string.NexaChatCards, R.string.NexaSquareAvatars, R.string.NexaPinnedTint,
+            R.string.NexaAccentSearch, R.string.NexaTabBar, R.string.NexaDockedCompose
+    };
 
     @Override
     protected CharSequence getTitle() {
@@ -38,6 +45,13 @@ public class NexaSettingsActivity extends UniversalFragment {
         items.add(UItem.asHeader(getString(R.string.NexaAppearance)));
         items.add(UItem.asCheck(ID_BRAND_COLORS, getString(R.string.NexaBrandColors)).setChecked(NexaTheme.isEnabled()));
         items.add(UItem.asShadow(getString(R.string.NexaBrandColorsInfo)));
+
+        items.add(UItem.asHeader(getString(R.string.NexaDesign)));
+        for (int i = 0; i < NexaDesign.ALL.length; i++) {
+            items.add(UItem.asCheck(ID_DESIGN_FIRST + i, getString(DESIGN_TITLES[i])).setChecked(NexaDesign.get(NexaDesign.ALL[i])));
+        }
+        items.add(UItem.asButton(ID_DESIGN_RESET, R.drawable.msg_reset, getString(R.string.NexaDesignReset)));
+        items.add(UItem.asShadow(getString(R.string.NexaDesignInfo)));
 
         items.add(UItem.asHeader(getString(R.string.NexaFeatures)));
         items.add(UItem.asShadow(getString(R.string.NexaFeaturesSoon)));
@@ -53,7 +67,26 @@ public class NexaSettingsActivity extends UniversalFragment {
         if (item.id == ID_BRAND_COLORS) {
             NexaTheme.setEnabled(!NexaTheme.isEnabled());
             listView.adapter.update(true);
-            askRestart();
+            askRestart(R.string.NexaRestartText);
+        } else if (item.id >= ID_DESIGN_FIRST && item.id < ID_DESIGN_FIRST + NexaDesign.ALL.length) {
+            String key = NexaDesign.ALL[item.id - ID_DESIGN_FIRST];
+            NexaDesign.set(key, !NexaDesign.get(key));
+            listView.adapter.update(true);
+            if (NexaDesign.needsRestart(key)) {
+                askRestart(R.string.NexaRestartDesignText);
+            }
+        } else if (item.id == ID_DESIGN_RESET) {
+            boolean restart = false;
+            for (String key : NexaDesign.ALL) {
+                if (NexaDesign.get(key)) {
+                    restart |= NexaDesign.needsRestart(key);
+                    NexaDesign.set(key, false);
+                }
+            }
+            listView.adapter.update(true);
+            if (restart) {
+                askRestart(R.string.NexaRestartDesignText);
+            }
         } else if (item.id == ID_VERSION && BuildVars.DEBUG_VERSION) {
             // debug builds only: preview the welcome screen without logging out
             presentFragment(new NexaIntroActivity());
@@ -72,14 +105,14 @@ public class NexaSettingsActivity extends UniversalFragment {
         return false;
     }
 
-    private void askRestart() {
+    private void askRestart(int text) {
         Activity activity = getParentActivity();
         if (activity == null) {
             return;
         }
         showDialog(new AlertDialog.Builder(activity, getResourceProvider())
                 .setTitle(getString(R.string.NexaRestartTitle))
-                .setMessage(getString(R.string.NexaRestartText))
+                .setMessage(getString(text))
                 .setPositiveButton(getString(R.string.NexaRestart), (dialog, which) -> restartApp(activity))
                 .setNegativeButton(getString(R.string.NexaLater), null)
                 .create());

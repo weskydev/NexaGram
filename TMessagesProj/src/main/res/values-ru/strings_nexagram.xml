@@ -26,4 +26,14 @@
     <string name="NexaIntro5Text">Те же защищённые серверы и шифрование Telegram. Открытый исходный код.</string>
     <string name="NexaIntro6Title">Везде с вами</string>
     <string name="NexaIntro6Text">Ваш аккаунт Telegram и все чаты — на всех устройствах.</string>
+    <string name="NexaDesign">Список чатов и панели</string>
+    <string name="NexaChatCards">Чаты карточками</string>
+    <string name="NexaSquareAvatars">Квадратные аватарки</string>
+    <string name="NexaPinnedTint">Подсветка закреплённых чатов</string>
+    <string name="NexaAccentSearch">Цветное поле поиска</string>
+    <string name="NexaTabBar">Нижняя панель NexaGram</string>
+    <string name="NexaDockedCompose">Кнопка «Новое сообщение» у панели</string>
+    <string name="NexaDesignInfo">Выключите пункт, чтобы вернуть стандартный вид Telegram.</string>
+    <string name="NexaDesignReset">Вернуть вид Telegram</string>
+    <string name="NexaRestartDesignText">Изменение применится после перезапуска NexaGram. Перезапустить сейчас?</string>
 </resources>

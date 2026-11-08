@@ -46,7 +46,7 @@ public final class NexaMainTabs {
 
     /** True when the chats list lives in the main tabs and our docked button replaces its floating ones. */
     public static boolean replacesFloatingButtons(boolean hasMainTabs) {
-        return hasMainTabs;
+        return hasMainTabs && NexaDesign.dockedCompose();
     }
 
     /**
@@ -55,6 +55,10 @@ public final class NexaMainTabs {
      */
     public static View attach(BaseFragment fragment, FrameLayout tabsWrapper, View tabsView) {
         Context context = tabsWrapper.getContext();
+        tabsView.setForeground(new BarAccent());
+        if (!NexaDesign.dockedCompose()) {
+            return null;
+        }
 
         // FrameLayout's CENTER_HORIZONTAL shifts a child by -rightMargin, so pin the bar to the left
         // and center the bar + button pair ourselves (matters on wide screens only).
@@ -110,6 +114,48 @@ public final class NexaMainTabs {
                 tabsView.setLayoutParams(tabsParams);
                 button.setLayoutParams(buttonParams);
             });
+        }
+    }
+
+    /** NexaGram bottom bar: thin accent outline and a faint accent tint over Telegram's glass. */
+    private static final class BarAccent extends android.graphics.drawable.Drawable {
+        private final android.graphics.Paint fill = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+        private final android.graphics.Paint stroke = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+        private final android.graphics.RectF rect = new android.graphics.RectF();
+
+        BarAccent() {
+            stroke.setStyle(android.graphics.Paint.Style.STROKE);
+            stroke.setStrokeWidth(dp(1));
+        }
+
+        @Override
+        public void draw(android.graphics.Canvas canvas) {
+            if (!NexaDesign.get(NexaDesign.TAB_BAR)) {
+                return;
+            }
+            boolean dark = org.telegram.ui.ActionBar.Theme.isCurrentThemeDark();
+            int accent = NexaChatList.accent();
+            float inset = dp(DialogsActivity.MAIN_TABS_MARGIN - 0.334f) + dp(0.5f);
+            rect.set(getBounds());
+            rect.inset(inset, inset);
+            float r = rect.height() / 2f;
+            fill.setColor(androidx.core.graphics.ColorUtils.setAlphaComponent(accent, dark ? 22 : 14));
+            stroke.setColor(androidx.core.graphics.ColorUtils.setAlphaComponent(accent, dark ? 110 : 80));
+            canvas.drawRoundRect(rect, r, r, fill);
+            canvas.drawRoundRect(rect, r, r, stroke);
+        }
+
+        @Override
+        public void setAlpha(int alpha) {
+        }
+
+        @Override
+        public void setColorFilter(android.graphics.ColorFilter colorFilter) {
+        }
+
+        @Override
+        public int getOpacity() {
+            return android.graphics.PixelFormat.TRANSLUCENT;
         }
     }
 

@@ -27,4 +27,14 @@
     <string name="NexaIntro5Text">The same secure Telegram servers and encryption. Open source code.</string>
     <string name="NexaIntro6Title">Everywhere with you</string>
     <string name="NexaIntro6Text">Your Telegram account and all your chats on all your devices.</string>
+    <string name="NexaDesign">Chat list and bars</string>
+    <string name="NexaChatCards">Chats as cards</string>
+    <string name="NexaSquareAvatars">Rounded-square avatars</string>
+    <string name="NexaPinnedTint">Highlight pinned chats</string>
+    <string name="NexaAccentSearch">Colored search field</string>
+    <string name="NexaTabBar">NexaGram bottom bar</string>
+    <string name="NexaDockedCompose">New message button next to the bar</string>
+    <string name="NexaDesignInfo">Turn off any item to get Telegram’s original look back.</string>
+    <string name="NexaDesignReset">Restore Telegram’s look</string>
+    <string name="NexaRestartDesignText">This change applies after NexaGram restarts. Restart now?</string>
 </resources>
