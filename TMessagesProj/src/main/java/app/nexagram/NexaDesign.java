@@ -17,8 +17,9 @@ public final class NexaDesign {
     public static final String ACCENT_SEARCH = "design_accent_search";
     public static final String TAB_BAR = "design_tab_bar";
     public static final String DOCKED_COMPOSE = "design_docked_compose";
+    public static final String CONTACTS_DESIGN = "design_contacts";
 
-    public static final String[] ALL = {CHAT_CARDS, SQUARE_AVATARS, PINNED_TINT, ACCENT_SEARCH, TAB_BAR, DOCKED_COMPOSE};
+    public static final String[] ALL = {CHAT_CARDS, SQUARE_AVATARS, PINNED_TINT, ACCENT_SEARCH, TAB_BAR, DOCKED_COMPOSE, CONTACTS_DESIGN};
 
     /** Bumped on every change so lists can notice and redraw. */
     private static int version;

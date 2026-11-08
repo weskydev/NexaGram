@@ -412,6 +412,7 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
         };
         listView.setSections();
         ThemeBind.backgroundColor(contentView, Theme.key_windowBackgroundGray, getResourceProvider());
+        if (hasMainTabs) app.nexagram.NexaContacts.background(listView); // NexaGram
 
         FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
         flickerLoadingView.setViewType(FlickerLoadingView.PROFILE_SEARCH_CELL);

@@ -27,8 +27,14 @@ public final class NexaStrings {
     // "Telegram" as a whole word, not part of a link/username/domain,
     // and not followed by the name of a Telegram product.
     private static final Pattern TELEGRAM = Pattern.compile(
-            "(?<![\\w@/.\\-])Telegram(?![\\w\\-'’]|\\.[A-Za-z]|\\s+(?:Premium|Stars?|Business|Gateway|Passport|Support|FAQ|Features|Terms|Privacy|Gift|Wallet|Fragment|API|Desktop|Web|X|Bot API|[Vv]olunteers?|[Ss]ervers?|[Tt]eam)\\b)"
+            "(?<![\\w@/.\\-])Telegram(?![\\w\\-'’]|\\.[A-Za-z]|\\s+(?:Premium|Stars?|Business|Gateway|Passport|Support|FAQ|Features|Terms|Privacy|Gift|Wallet|Fragment|API|Desktop|Web|X|Bot API|[Vv]olunteers?|[Ss]ervers?|[Cc]loud|[Tt]eam)\\b)"
     );
+
+    // "Telegram" right after a word about Telegram's cloud or servers (RU, UK, BE word order):
+    // "в облаке Telegram", "у хмарі Telegram", "на серверах Telegram". Data lives there, not with us.
+    private static final Pattern CLOUD_BEFORE = Pattern.compile(
+            "(?:облак|облач|хмар|воблак|воблач|сервер|хранилищ|сховищ)[а-яіїєўґ]*\\s+$",
+            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     private NexaStrings() {
     }
@@ -50,7 +56,15 @@ public final class NexaStrings {
         if (!m.find()) {
             return text;
         }
-        return m.replaceAll(APP_NAME);
+        StringBuilder out = new StringBuilder(text.length() + 8);
+        int last = 0;
+        do {
+            int from = Math.max(last, m.start() - 24);
+            boolean cloud = CLOUD_BEFORE.matcher(text.substring(from, m.start())).find();
+            out.append(text, last, m.start()).append(cloud ? m.group() : APP_NAME);
+            last = m.end();
+        } while (m.find());
+        return out.append(text, last, text.length()).toString();
     }
 
     private static boolean isOwn(String key, int res) {

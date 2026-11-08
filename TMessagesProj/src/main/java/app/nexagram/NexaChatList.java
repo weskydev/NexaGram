@@ -49,7 +49,11 @@ public final class NexaChatList {
 
     /** Radius for a regular (round) chat avatar in the chat list. */
     public static int avatarRadius(int telegramRadius) {
-        return NexaDesign.get(NexaDesign.SQUARE_AVATARS) ? dp(AVATAR_RADIUS_DP) : telegramRadius;
+        if (!NexaDesign.get(NexaDesign.SQUARE_AVATARS)) {
+            return telegramRadius;
+        }
+        // same shape at any size: 28dp circle radius -> 17dp corner
+        return telegramRadius == dp(28) ? dp(AVATAR_RADIUS_DP) : Math.round(telegramRadius * AVATAR_RADIUS_DP / 28f);
     }
 
     /** True for our rounded-square avatars, so the story ring follows the same shape. */
@@ -58,7 +62,8 @@ public final class NexaChatList {
             return false;
         }
         int[] radius = avatar.getRoundRadius();
-        return NexaDesign.get(NexaDesign.SQUARE_AVATARS) && radius != null && radius[0] == dp(AVATAR_RADIUS_DP) && avatar.getImageWidth() > dp(AVATAR_RADIUS_DP) * 2 + 1;
+        return NexaDesign.get(NexaDesign.SQUARE_AVATARS) && radius != null && radius[0] > 1
+                && radius[0] < avatar.getImageWidth() / 2f - dp(2);
     }
 
     /** Turns the main chat list into cards. Call once for the main dialogs list. */

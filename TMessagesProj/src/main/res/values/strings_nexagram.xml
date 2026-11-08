@@ -37,4 +37,10 @@
     <string name="NexaDesignInfo">Turn off any item to get Telegram’s original look back.</string>
     <string name="NexaDesignReset">Restore Telegram’s look</string>
     <string name="NexaRestartDesignText">This change applies after NexaGram restarts. Restart now?</string>
+    <string name="NexaSections">Sections</string>
+    <string name="NexaColors">Colors</string>
+    <string name="NexaSectionChats">Chats</string>
+    <string name="NexaSectionChatList">Chat list</string>
+    <string name="NexaSectionAccounts">Profile and accounts</string>
+    <string name="NexaContactsDesign">Contacts tab design</string>
 </resources>

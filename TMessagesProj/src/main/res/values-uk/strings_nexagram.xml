@@ -36,4 +36,10 @@
     <string name="NexaDesignInfo">Вимкніть пункт, щоб повернути стандартний вигляд Telegram.</string>
     <string name="NexaDesignReset">Повернути вигляд Telegram</string>
     <string name="NexaRestartDesignText">Зміна застосується після перезапуску NexaGram. Перезапустити зараз?</string>
+    <string name="NexaSections">Розділи</string>
+    <string name="NexaColors">Кольори</string>
+    <string name="NexaSectionChats">Чати</string>
+    <string name="NexaSectionChatList">Список чатів</string>
+    <string name="NexaSectionAccounts">Профіль і акаунти</string>
+    <string name="NexaContactsDesign">Оформлення вкладки «Контакти»</string>
 </resources>

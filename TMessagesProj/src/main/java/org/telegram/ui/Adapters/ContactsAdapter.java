@@ -589,9 +589,9 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 if (section == 0) {
                     if (needPhonebook) {
                         if (position == 0) {
-                            textCell.setTextAndValueAndColorfulIcon(getString(R.string.InviteFriends), "", false, R.drawable.settings_invite, 0xFF1CA5ED, 0xFF1488E1, false);
+                            textCell.setTextAndValueAndColorfulIcon(getString(R.string.InviteFriends), "", false, R.drawable.settings_invite, app.nexagram.NexaContacts.iconTop(0, 0xFF1CA5ED), app.nexagram.NexaContacts.iconBottom(0, 0xFF1488E1), false); // NexaGram
                         } else if (position == 1) {
-                            textCell.setTextAndValueAndColorfulIcon(getString(R.string.RecentCalls), "", false, R.drawable.settings_calls, 0xFF55CA47, 0xFF27B434, false);
+                            textCell.setTextAndValueAndColorfulIcon(getString(R.string.RecentCalls), "", false, R.drawable.settings_calls, app.nexagram.NexaContacts.iconTop(1, 0xFF55CA47), app.nexagram.NexaContacts.iconBottom(1, 0xFF27B434), false); // NexaGram
                         }
                     } else if (isAdmin) {
                         if (isChannel) {
@@ -601,9 +601,9 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                         }
                     } else {
                         if (position == 0) {
-                            textCell.setTextAndValueAndColorfulIcon(getString(R.string.NewGroup), "", false, R.drawable.settings_group, 0xFF1CA5ED, 0xFF1488E1, false);
+                            textCell.setTextAndValueAndColorfulIcon(getString(R.string.NewGroup), "", false, R.drawable.settings_group, app.nexagram.NexaContacts.iconTop(0, 0xFF1CA5ED), app.nexagram.NexaContacts.iconBottom(0, 0xFF1488E1), false); // NexaGram
                         } else if (position == 1) {
-                            textCell.setTextAndValueAndColorfulIcon(getString(R.string.NewChannel), "", false, R.drawable.settings_channel, 0xFF55CA47, 0xFF27B434, false);
+                            textCell.setTextAndValueAndColorfulIcon(getString(R.string.NewChannel), "", false, R.drawable.settings_channel, app.nexagram.NexaContacts.iconTop(1, 0xFF55CA47), app.nexagram.NexaContacts.iconBottom(1, 0xFF27B434), false); // NexaGram
                         }
                     }
                 } else {
