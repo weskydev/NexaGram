@@ -42,4 +42,7 @@
     <string name="NexaSectionChatList">Список чатов</string>
     <string name="NexaSectionAccounts">Профиль и аккаунты</string>
     <string name="NexaContactsDesign">Оформление вкладки «Контакты»</string>
+    <string name="NexaSendAsRound">Отправить кружком</string>
+    <string name="NexaRoundVideo">Кружок из видео в галерее</string>
+    <string name="NexaRoundVideoInfo">Выберите одно видео в меню вложений и зажмите кнопку отправки, чтобы отправить его кружком. До 60 секунд, видео обрезается до квадрата.</string>
 </resources>

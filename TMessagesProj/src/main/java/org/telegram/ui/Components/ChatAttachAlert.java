@@ -4010,6 +4010,21 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     }
                 });
             }
+            // NexaGram: send the selected gallery video as a round video message
+            final MediaController.PhotoEntry nexaRoundEntry = editingMessageObject == null && (currentAttachLayout == photoLayout || currentAttachLayout == photoPreviewLayout) && photoLayout != null
+                    ? app.nexagram.NexaRoundVideo.selectedVideo(chatActivity, photoLayout.getSelectedPhotos()) : null;
+            if (nexaRoundEntry != null) {
+                final ChatActivity nexaChat = chatActivity;
+                options.add(R.drawable.input_video, getString(R.string.NexaSendAsRound), () -> {
+                    if (messageSendPreview != null) {
+                        messageSendPreview.dismiss(true);
+                        messageSendPreview = null;
+                    }
+                    if (app.nexagram.NexaRoundVideo.send(nexaChat, nexaRoundEntry, true, 0)) {
+                        dismiss(true);
+                    }
+                });
+            }
             if (editingMessageObject == null && canHaveStars && chatActivity != null && ChatObject.isChannelAndNotMegaGroup(chatActivity.getCurrentChat()) && chatActivity.getCurrentChatInfo() != null && chatActivity.getCurrentChatInfo().paid_media_allowed) {
                 ActionBarMenuSubItem item = options.add(R.drawable.menu_feature_paid, getString(R.string.PaidMediaButton), null).getLast();
                 item.setOnClickListener(v -> {

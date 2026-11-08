@@ -43,4 +43,7 @@
     <string name="NexaSectionChatList">Chat list</string>
     <string name="NexaSectionAccounts">Profile and accounts</string>
     <string name="NexaContactsDesign">Contacts tab design</string>
+    <string name="NexaSendAsRound">Send as video message</string>
+    <string name="NexaRoundVideo">Video message from gallery</string>
+    <string name="NexaRoundVideoInfo">Select one video in the attachment menu and hold the send button to send it as a round video message. Up to 60 seconds, cropped to a square.</string>
 </resources>
