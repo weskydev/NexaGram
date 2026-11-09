@@ -33,7 +33,7 @@
     <string name="NexaAccentSearch">Цветное поле поиска</string>
     <string name="NexaTabBar">Нижняя панель NexaGram</string>
     <string name="NexaDockedCompose">Кнопка «Новое сообщение» у панели</string>
-    <string name="NexaDesignInfo">Выключите пункт, чтобы вернуть стандартный вид Telegram.</string>
+    <string name="NexaDesignInfo">По умолчанию всё выключено — стандартный вид Telegram. Включите то, что нравится.</string>
     <string name="NexaDesignReset">Вернуть вид Telegram</string>
     <string name="NexaRestartDesignText">Изменение применится после перезапуска NexaGram. Перезапустить сейчас?</string>
     <string name="NexaSections">Разделы</string>

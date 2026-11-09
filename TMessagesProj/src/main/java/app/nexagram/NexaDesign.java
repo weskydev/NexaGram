@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import org.telegram.messenger.ApplicationLoader;
 
 /**
- * NexaGram look switches. Every item is on by default; turning it off gives
- * Telegram's original look back for that part.
+ * NexaGram look switches. Off by default (Telegram's own look); turning one on
+ * changes that part.
  */
 public final class NexaDesign {
 
@@ -42,12 +42,34 @@ public final class NexaDesign {
     private static final java.util.Set<String> OFF_BY_DEFAULT = new java.util.HashSet<>(java.util.Arrays.asList(
             "feature_confirm_voice", "feature_confirm_sticker", "feature_hide_stories"));
 
+    /**
+     * Telegram's own look by default: these design changes start switched off.
+     * The username / phone chips stay on, they are a feature (copy, call, share).
+     */
+    private static final java.util.Set<String> DESIGN_OFF = new java.util.HashSet<>(java.util.Arrays.asList(
+            CHAT_CARDS, SQUARE_AVATARS, PINNED_TINT, ACCENT_SEARCH, TAB_BAR, DOCKED_COMPOSE, CONTACTS_DESIGN, SETTINGS_DESIGN, MUSIC_BLOCK));
+    /** Once: forget the old "on" values, so everyone gets Telegram's look. */
+    private static final String RESET_TO_TELEGRAM = "design_reset_to_telegram";
+    private static boolean resetChecked;
+
     public static boolean get(String key) {
-        boolean def = !OFF_BY_DEFAULT.contains(key);
+        boolean def = !OFF_BY_DEFAULT.contains(key) && !DESIGN_OFF.contains(key);
         if (ApplicationLoader.applicationContext == null) {
             return def;
         }
-        return prefs().getBoolean(key, def);
+        SharedPreferences p = prefs();
+        if (!resetChecked) {
+            resetChecked = true;
+            if (!p.getBoolean(RESET_TO_TELEGRAM, false)) {
+                SharedPreferences.Editor e = p.edit();
+                for (String k : DESIGN_OFF) {
+                    e.remove(k);
+                }
+                e.remove("design_glass").remove("design_glass_saved_flags");
+                e.putBoolean(RESET_TO_TELEGRAM, true).apply();
+            }
+        }
+        return p.getBoolean(key, def);
     }
 
     public static void set(String key, boolean value) {

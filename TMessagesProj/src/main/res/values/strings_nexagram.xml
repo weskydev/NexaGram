@@ -34,7 +34,7 @@
     <string name="NexaAccentSearch">Colored search field</string>
     <string name="NexaTabBar">NexaGram bottom bar</string>
     <string name="NexaDockedCompose">New message button next to the bar</string>
-    <string name="NexaDesignInfo">Turn off any item to get Telegram’s original look back.</string>
+    <string name="NexaDesignInfo">By default everything here is off: Telegram’s original look. Turn on what you like.</string>
     <string name="NexaDesignReset">Restore Telegram’s look</string>
     <string name="NexaRestartDesignText">This change applies after NexaGram restarts. Restart now?</string>
     <string name="NexaSections">Sections</string>
