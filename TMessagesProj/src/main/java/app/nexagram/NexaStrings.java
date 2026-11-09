@@ -27,8 +27,21 @@ public final class NexaStrings {
     // "Telegram" as a whole word, not part of a link/username/domain,
     // and not followed by the name of a Telegram product.
     private static final Pattern TELEGRAM = Pattern.compile(
-            "(?<![\\w@/.\\-])Telegram(?![\\w\\-'’]|\\.[A-Za-z]|\\s+(?:Premium|Stars?|Business|Gateway|Passport|Support|FAQ|Features|Terms|Privacy|Gift|Wallet|Fragment|API|Desktop|Web|X|Bot API|[Vv]olunteers?|[Ss]ervers?|[Cc]loud|[Tt]eam)\\b)"
+            "(?<![\\w@/.\\-])Telegram(?![\\w\\-'’]|\\.[A-Za-z]|\\s+(?:Premium|Stars?|Business|Gateway|Passport|Support|FAQ|Features|Terms|Privacy|Gift|Wallet|Fragment|API|Desktop|Web|X|Bot API|[Vv]olunteers?|[Ss]ervers?|[Cc]loud|[Tt]eam)\\b"
+                    // RU / UK / BE: "Telegram для бизнеса", "Telegram для бізнесу", "Telegram для бізнесу"
+                    + "|\\s+для\\s+б[иі]зн[еэ]с)"
     );
+
+    // A Telegram product named before the word (RU, UK, BE word order):
+    // "Звёзды Telegram", "Зірки Telegram", "Вопросы о Telegram", "Возможности Telegram".
+    private static final Pattern PRODUCT_BEFORE = Pattern.compile(
+            "(?<![а-яёіїєўґ])(?:зв[её]зд|зірк|зірок|зорк|зорак|премиум|преміум|прэміум"
+                    + "|возможност|можливост|магчымасц|функци|функці|функцы"
+                    + "|поддержк|підтримк|падтрымк|услови|умов|правил|политик|політик|палітык"
+                    + "|подар|падарун|кошел[её]к|кошельк|гаман|бизнес|бізнес"
+                    + "|(?:вопрос|питанн|пытанн|чаво)[а-яіїєўґ]*\\s+(?:о|об|про|пра))"
+                    + "[а-яіїєўґ]*\\s+$",
+            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     // "Telegram" right after a word about Telegram's cloud or servers (RU, UK, BE word order):
     // "в облаке Telegram", "у хмарі Telegram", "на серверах Telegram". Data lives there, not with us.
@@ -60,7 +73,8 @@ public final class NexaStrings {
         int last = 0;
         do {
             int from = Math.max(last, m.start() - 24);
-            boolean cloud = CLOUD_BEFORE.matcher(text.substring(from, m.start())).find();
+            String before = text.substring(from, m.start());
+            boolean cloud = CLOUD_BEFORE.matcher(before).find() || PRODUCT_BEFORE.matcher(before).find();
             out.append(text, last, m.start()).append(cloud ? m.group() : APP_NAME);
             last = m.end();
         } while (m.find());

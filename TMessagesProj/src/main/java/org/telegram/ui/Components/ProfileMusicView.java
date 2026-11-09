@@ -79,7 +79,21 @@ public class ProfileMusicView extends View {
 
     // NexaGram: a full-width block instead of the small pill (the balance next to it gets the same height)
     private final boolean nexaBlockMode = app.nexagram.NexaProfile.musicBlock();
-    private final app.nexagram.NexaProfile.MusicBlock nexaBlock = nexaBlockMode && getClass() == ProfileMusicView.class ? new app.nexagram.NexaProfile.MusicBlock() : null;
+    private final app.nexagram.NexaProfile.MusicBlock nexaBlock = nexaBlockMode && getClass() == ProfileMusicView.class ? new app.nexagram.NexaProfile.MusicBlock(this) : null;
+    /** NexaGram: starts the profile track without opening the player (the play button). */
+    public Runnable nexaPlayListener;
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (nexaBlock != null) nexaBlock.attach(); // NexaGram: track cover
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (nexaBlock != null) nexaBlock.detach(); // NexaGram
+    }
 
     private float nexaFade() {
         return Utilities.clamp01(currentHeight / dp(nexaBlockMode ? 50 : 21));
@@ -168,6 +182,7 @@ public class ProfileMusicView extends View {
 
 
     public void setMusicDocument(TLRPC.Document document) {
+        if (nexaBlock != null) nexaBlock.setDocument(document); // NexaGram: cover and play state
         CharSequence author = getAuthor(document);
         CharSequence title = getTitle(document);
         if (TextUtils.isEmpty(author)) {
@@ -284,6 +299,10 @@ public class ProfileMusicView extends View {
             bounce.setPressed(false);
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             if (bounce.isPressed()) {
+                if (nexaBlock != null && nexaBlock.buttonHit(event.getX(), event.getY())) { // NexaGram: play / pause
+                    if (!nexaBlock.toggle() && nexaPlayListener != null) nexaPlayListener.run();
+                    invalidate();
+                } else
                 performClick();
             }
             bounce.setPressed(false);

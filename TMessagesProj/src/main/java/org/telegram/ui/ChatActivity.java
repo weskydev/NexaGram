@@ -6855,6 +6855,9 @@ public class ChatActivity extends BaseFragment implements
                         wasManualScroll = true;
                         scrollingChatListView = true;
                     } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        if (app.nexagram.NexaChats.hideKeyboardOnScroll() && chatActivityEnterView != null && isKeyboardVisible()) { // NexaGram
+                            AndroidUtilities.hideKeyboard(chatActivityEnterView.getEditField());
+                        }
                         pollHintCell = null;
                         wasManualScroll = true;
                         scrollingFloatingDate = true;

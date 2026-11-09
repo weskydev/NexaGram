@@ -57,4 +57,14 @@
     <string name="NexaPhoneCode">Толькі код краіны</string>
     <string name="NexaPhoneHidden">Схаваць</string>
     <string name="NexaPhoneInfo">Як ваш нумар паказаны ў профілі і ў шапцы налад. Зручна для скрыншотаў і стрымаў. Іншыя людзі бачаць нумар так, як дазваляюць налады прыватнасці.</string>
+    <string name="NexaProfileTrack">Трэк профілю</string>
+    <string name="NexaCallConfirm">Патэлефанаваць карыстальніку **%1$s**?</string>
+    <string name="NexaVideoCallConfirm">Пачаць відэазванок з карыстальнікам **%1$s**?</string>
+    <string name="NexaConfirmCall">Пытацца перад званком</string>
+    <string name="NexaConfirmCallInfo">Перад званком з\'явіцца пытанне, каб не патэлефанаваць выпадкова.</string>
+    <string name="NexaHideKeyboard">Хаваць клавіятуру пры пракрутцы</string>
+    <string name="NexaHideKeyboardInfo">Клавіятура закрываецца, калі гартаеш чат пальцам.</string>
+    <string name="NexaShowId">Паказваць ID карыстальніка</string>
+    <string name="NexaShowIdInfo">ID карыстальніка відаць у яго профілі. Націсні, каб скапіяваць.</string>
+    <string name="NexaIdCopied">ID скапіяваны</string>
 </resources>

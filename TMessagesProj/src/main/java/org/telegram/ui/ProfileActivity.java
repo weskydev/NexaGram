@@ -668,6 +668,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int infoHeaderRowEmpty;
     private int infoEndRowEmpty;
     private int phoneRow;
+    private int nexaIdRow = -1; // NexaGram: user ID
     private int noteRow;
     private int locationRow;
     private int userInfoRow;
@@ -3830,37 +3831,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (userInfo != null && userInfo.saved_music != null) {
                 musicView.setMusicDocument(userInfo.saved_music);
             }
-            musicView.setOnClickListener(v -> {
-                if (savedMusicList == null) {
-                    if (
-                        MediaController.getInstance().currentSavedMusicList != null &&
-                        MediaController.getInstance().currentSavedMusicList.currentAccount == currentAccount &&
-                        MediaController.getInstance().currentSavedMusicList.dialogId == getDialogId()) {
-                        savedMusicList = MediaController.getInstance().currentSavedMusicList;
-                    } else {
-                        savedMusicList = new MessagesController.SavedMusicList(currentAccount, getDialogId());
-                        if (userInfo != null && userInfo.saved_music != null) {
-                            savedMusicList.setup(userInfo.saved_music);
-                        }
-                    }
-                }
-                if (!savedMusicList.list.isEmpty()) {
-                    boolean sameList = false;
-                    if (
-                        MediaController.getInstance().currentSavedMusicList != savedMusicList ||
-                        !MediaController.getInstance().isPlayingMessage(savedMusicList.list.get(0))
-                    ) {
-                        MediaController.getInstance().cleanup();
-                    } else {
-                        sameList = true;
-                    }
-                    MediaController.getInstance().currentSavedMusicList = savedMusicList;
-                    MediaController.getInstance().getPlaylist().clear();
-                    MediaController.getInstance().getPlaylist().addAll(savedMusicList.list);
-                    if (!sameList) MediaController.getInstance().playMessage(savedMusicList.list.get(0));
-                    showDialog(new AudioPlayerAlert(getContext(), getResourceProvider()));
-                }
-            });
+            musicView.setOnClickListener(v -> nexaPlayMusic(true)); // NexaGram: the code moved to nexaPlayMusic
+            musicView.nexaPlayListener = () -> nexaPlayMusic(false); // NexaGram: play button of the music card
 
             actionsView = new ProfileActionsView(context, dp(74));
             setActionsMode();
@@ -4304,6 +4276,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return;
             }
             listView.stopScroll();
+            if (position == nexaIdRow) { // NexaGram
+                app.nexagram.NexaChats.copyId(ProfileActivity.this, userId);
+                return;
+            }
             if (position == affiliateRow) {
                 TLRPC.User user = getMessagesController().getUser(userId);
                 if (userInfo != null && userInfo.starref_program != null) {
@@ -5576,7 +5552,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         onlineTextView.setFocusable(true);
         avatarContainer2.addView(onlineTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 109 - 4, -2, 8 - 4, 0));
         if (app.nexagram.NexaProfile.lineEnabled(myProfile)) { // NexaGram
-            nexaProfileLine = app.nexagram.NexaProfile.attachLine(avatarContainer2, currentAccount);
+            nexaProfileLine = app.nexagram.NexaProfile.attachLine(this, avatarContainer2, currentAccount);
         }
         checkPhotoDescriptionAlpha();
         avatarContainer2.addView(animatedStatusView);
@@ -7443,6 +7419,39 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         });
         presentFragment(fragment);
+    }
+
+    // NexaGram: was the music pill's click listener; openPlayer=false is the music card's play button
+    private void nexaPlayMusic(boolean openPlayer) {
+        if (savedMusicList == null) {
+            if (
+                MediaController.getInstance().currentSavedMusicList != null &&
+                MediaController.getInstance().currentSavedMusicList.currentAccount == currentAccount &&
+                MediaController.getInstance().currentSavedMusicList.dialogId == getDialogId()) {
+                savedMusicList = MediaController.getInstance().currentSavedMusicList;
+            } else {
+                savedMusicList = new MessagesController.SavedMusicList(currentAccount, getDialogId());
+                if (userInfo != null && userInfo.saved_music != null) {
+                    savedMusicList.setup(userInfo.saved_music);
+                }
+            }
+        }
+        if (!savedMusicList.list.isEmpty()) {
+            boolean sameList = false;
+            if (
+                MediaController.getInstance().currentSavedMusicList != savedMusicList ||
+                !MediaController.getInstance().isPlayingMessage(savedMusicList.list.get(0))
+            ) {
+                MediaController.getInstance().cleanup();
+            } else {
+                sameList = true;
+            }
+            MediaController.getInstance().currentSavedMusicList = savedMusicList;
+            MediaController.getInstance().getPlaylist().clear();
+            MediaController.getInstance().getPlaylist().addAll(savedMusicList.list);
+            if (!sameList) MediaController.getInstance().playMessage(savedMusicList.list.get(0));
+            if (openPlayer) showDialog(new AudioPlayerAlert(getContext(), getResourceProvider()));
+            }
     }
 
     private boolean processOnClickOrPress(final int position, final View view, final float x, final float y) {
@@ -10725,6 +10734,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         numberSectionRow = -1;
         numberRow = -1;
         birthdayRow = -1;
+        nexaIdRow = -1; // NexaGram
         setUsernameRow = -1;
         bioRow = -1;
         channelRow = -1;
@@ -10978,14 +10988,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
                 infoStartRow = rowCount;
-                if (!isBot && (hasPhone || !hasInfo)) {
+                if (!isBot && (hasPhone || !hasInfo) && !app.nexagram.NexaProfile.hideRows(myProfile)) { // NexaGram: shown as a chip
                     phoneRow = rowCount++;
                 }
                 if (userInfo != null && !TextUtils.isEmpty(userInfo.about)) {
                     userInfoRow = rowCount++;
                 }
-                if (user != null && username != null) {
+                if (user != null && username != null && !app.nexagram.NexaProfile.hideRows(myProfile)) { // NexaGram: shown as a chip
                     usernameRow = rowCount++;
+                }
+                if (user != null && !isBot && app.nexagram.NexaChats.showId()) { // NexaGram
+                    nexaIdRow = rowCount++;
                 }
                 if (userInfo != null) {
                     if (userInfo.birthday != null) {
@@ -13532,7 +13545,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     TextDetailCell detailCell = (TextDetailCell) holder.itemView;
                     boolean containsQr = false;
                     boolean containsGift = false;
-                    if (position == birthdayRow) {
+                    if (position == nexaIdRow) { // NexaGram
+                        detailCell.setTextAndValue(app.nexagram.NexaChats.idText(userId), "ID", false);
+                    } else if (position == birthdayRow) {
                         TLRPC.UserFull userFull = getMessagesController().getUserFull(userId);
                         if (userFull != null && userFull.birthday != null) {
                             final boolean today = BirthdayController.isToday(userFull);
@@ -14399,7 +14414,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (position == infoHeaderRow || position == membersHeaderRow || position == settingsSectionRow2 ||
                     position == numberSectionRow || position == helpHeaderRow || position == debugHeaderRow || position == botPermissionsHeader) {
                 return VIEW_TYPE_HEADER;
-            } else if (position == phoneRow || position == locationRow || position == numberRow || position == birthdayRow) {
+            } else if (position == phoneRow || position == locationRow || position == numberRow || position == birthdayRow || position == nexaIdRow) { // NexaGram: ID
                 return VIEW_TYPE_TEXT_DETAIL;
             } else if (position == usernameRow || position == setUsernameRow) {
                 return VIEW_TYPE_TEXT_DETAIL_MULTILINE;
@@ -15718,6 +15733,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, infoHeaderRowEmpty, sparseIntArray);
             put(++pointer, infoEndRowEmpty, sparseIntArray);
             put(++pointer, phoneRow, sparseIntArray);
+            put(++pointer, nexaIdRow, sparseIntArray); // NexaGram
             put(++pointer, noteRow, sparseIntArray);
             put(++pointer, locationRow, sparseIntArray);
             put(++pointer, userInfoRow, sparseIntArray);

@@ -58,4 +58,14 @@
     <string name="NexaPhoneCode">Country code only</string>
     <string name="NexaPhoneHidden">Hide</string>
     <string name="NexaPhoneInfo">How your own number is shown in your profile and the Settings header. Handy for screenshots and streams. Others still see it as your privacy settings allow.</string>
+    <string name="NexaProfileTrack">Profile track</string>
+    <string name="NexaCallConfirm">Call **%1$s**?</string>
+    <string name="NexaVideoCallConfirm">Video call **%1$s**?</string>
+    <string name="NexaConfirmCall">Confirm before calling</string>
+    <string name="NexaConfirmCallInfo">Asks before a call starts, so you don\'t call someone by accident.</string>
+    <string name="NexaHideKeyboard">Hide keyboard on scroll</string>
+    <string name="NexaHideKeyboardInfo">The keyboard closes when you scroll a chat by hand.</string>
+    <string name="NexaShowId">Show user ID</string>
+    <string name="NexaShowIdInfo">Shows the user\'s ID in their profile. Tap it to copy.</string>
+    <string name="NexaIdCopied">ID copied to clipboard</string>
 </resources>

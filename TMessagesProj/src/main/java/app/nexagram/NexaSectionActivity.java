@@ -31,6 +31,9 @@ public class NexaSectionActivity extends UniversalFragment {
     private static final int ID_DESIGN_RESET = 4;
     private static final int ID_ROUND_VIDEO = 5;
     private static final int ID_SELECT_ALL = 6;
+    private static final int ID_CONFIRM_CALL = 7;
+    private static final int ID_HIDE_KEYBOARD = 8;
+    private static final int ID_SHOW_ID = 9;
     /** Phone modes use ids ID_PHONE_FIRST + NexaProfile.PHONE_*. */
     private static final int ID_PHONE_FIRST = 10;
     /** Design switches use ids ID_DESIGN_FIRST + index in NexaDesign.ALL. */
@@ -87,6 +90,10 @@ public class NexaSectionActivity extends UniversalFragment {
         } else if (section == CHATS) {
             items.add(UItem.asCheck(ID_ROUND_VIDEO, getString(R.string.NexaRoundVideo)).setChecked(NexaRoundVideo.isEnabled()));
             items.add(UItem.asShadow(getString(R.string.NexaRoundVideoInfo)));
+            items.add(UItem.asCheck(ID_CONFIRM_CALL, getString(R.string.NexaConfirmCall)).setChecked(NexaDesign.get(NexaChats.CONFIRM_CALL)));
+            items.add(UItem.asShadow(getString(R.string.NexaConfirmCallInfo)));
+            items.add(UItem.asCheck(ID_HIDE_KEYBOARD, getString(R.string.NexaHideKeyboard)).setChecked(NexaChats.hideKeyboardOnScroll()));
+            items.add(UItem.asShadow(getString(R.string.NexaHideKeyboardInfo)));
         } else if (section == CHAT_LIST) {
             items.add(UItem.asCheck(ID_SELECT_ALL, getString(R.string.NexaSelectAllChats)).setChecked(NexaSelectAll.isEnabled()));
             items.add(UItem.asShadow(getString(R.string.NexaSelectAllInfo)));
@@ -97,6 +104,8 @@ public class NexaSectionActivity extends UniversalFragment {
             items.add(UItem.asRadio(ID_PHONE_FIRST + NexaProfile.PHONE_CODE, getString(R.string.NexaPhoneCode)).setChecked(mode == NexaProfile.PHONE_CODE));
             items.add(UItem.asRadio(ID_PHONE_FIRST + NexaProfile.PHONE_HIDDEN, getString(R.string.NexaPhoneHidden)).setChecked(mode == NexaProfile.PHONE_HIDDEN));
             items.add(UItem.asShadow(getString(R.string.NexaPhoneInfo)));
+            items.add(UItem.asCheck(ID_SHOW_ID, getString(R.string.NexaShowId)).setChecked(NexaChats.showId()));
+            items.add(UItem.asShadow(getString(R.string.NexaShowIdInfo)));
         }
     }
 
@@ -118,6 +127,10 @@ public class NexaSectionActivity extends UniversalFragment {
             listView.adapter.update(true);
         } else if (item.id >= ID_PHONE_FIRST && item.id <= ID_PHONE_FIRST + NexaProfile.PHONE_HIDDEN) {
             NexaProfile.setPhoneMode(item.id - ID_PHONE_FIRST);
+            listView.adapter.update(true);
+        } else if (item.id == ID_CONFIRM_CALL || item.id == ID_HIDE_KEYBOARD || item.id == ID_SHOW_ID) {
+            String key = item.id == ID_CONFIRM_CALL ? NexaChats.CONFIRM_CALL : item.id == ID_HIDE_KEYBOARD ? NexaChats.HIDE_KEYBOARD : NexaChats.SHOW_ID;
+            NexaDesign.set(key, !NexaDesign.get(key));
             listView.adapter.update(true);
         } else if (item.id == ID_SELECT_ALL) {
             NexaDesign.set(NexaSelectAll.KEY, !NexaSelectAll.isEnabled());

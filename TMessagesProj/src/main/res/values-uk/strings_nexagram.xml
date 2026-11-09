@@ -57,4 +57,14 @@
     <string name="NexaPhoneCode">Лише код країни</string>
     <string name="NexaPhoneHidden">Приховати</string>
     <string name="NexaPhoneInfo">Як ваш номер показано в профілі та в шапці налаштувань. Зручно для скриншотів і стримів. Інші люди бачать номер так, як дозволяють налаштування конфіденційності.</string>
+    <string name="NexaProfileTrack">Трек профілю</string>
+    <string name="NexaCallConfirm">Подзвонити користувачу **%1$s**?</string>
+    <string name="NexaVideoCallConfirm">Почати відеодзвінок з користувачем **%1$s**?</string>
+    <string name="NexaConfirmCall">Питати перед дзвінком</string>
+    <string name="NexaConfirmCallInfo">Перед дзвінком з\'явиться питання, щоб не подзвонити випадково.</string>
+    <string name="NexaHideKeyboard">Ховати клавіатуру при прокручуванні</string>
+    <string name="NexaHideKeyboardInfo">Клавіатура закривається, коли гортаєш чат пальцем.</string>
+    <string name="NexaShowId">Показувати ID користувача</string>
+    <string name="NexaShowIdInfo">ID користувача видно в його профілі. Натисни, щоб скопіювати.</string>
+    <string name="NexaIdCopied">ID скопійовано</string>
 </resources>
