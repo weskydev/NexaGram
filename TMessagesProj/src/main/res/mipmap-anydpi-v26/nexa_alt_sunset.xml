@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NexaGram: made by nexagram/tools/make_alt_icons.py -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/nexa_alt_sunset_bg" />
+    <foreground android:drawable="@android:color/transparent" />
+    <monochrome android:drawable="@mipmap/nexa_alt_monochrome" />
+</adaptive-icon>

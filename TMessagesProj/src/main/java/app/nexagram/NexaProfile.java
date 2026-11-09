@@ -128,24 +128,53 @@ public final class NexaProfile {
         return sb;
     }
 
-    // ---- username / phone line in the own profile ----
+    // ---- username / phone line under the status, in every user's profile ----
 
-    public static boolean lineEnabled(boolean myProfile) {
-        return myProfile && NexaDesign.profileLine();
+    /** userId is 0 for groups and channels: they keep Telegram's rows. */
+    public static boolean lineEnabled(long userId) {
+        return userId != 0 && NexaDesign.profileLine();
     }
 
-    public static int lineHeight(boolean myProfile) {
-        return lineEnabled(myProfile) ? dp(LINE_DP) : 0;
+    private static TLRPC.User lineUser(int account, long userId) {
+        TLRPC.User self = UserConfig.getInstance(account).getCurrentUser();
+        if (self != null && self.id == userId) {
+            return self;
+        }
+        return MessagesController.getInstance(account).getUser(userId);
     }
 
-    /** The chips replace the "Phone" and "Username" rows of the own profile. */
-    public static boolean hideRows(boolean myProfile) {
-        return lineEnabled(myProfile);
+    private static String lineUsername(TLRPC.User user) {
+        return user == null ? null : UserObject.getPublicUsername(user);
     }
 
-    public static Line attachLine(BaseFragment fragment, ViewGroup parent, int account) {
+    private static String linePhone(int account, TLRPC.User user) {
+        if (user == null || TextUtils.isEmpty(user.phone)) {
+            return null;
+        }
+        if (UserObject.isUserSelf(user)) {
+            return ownPhone(user.phone);
+        }
+        return PhoneFormat.getInstance().format("+" + user.phone);
+    }
+
+    /** Space under the status; none when the user has neither a username nor a visible phone. */
+    public static int lineHeight(int account, long userId) {
+        if (!lineEnabled(userId)) {
+            return 0;
+        }
+        TLRPC.User user = lineUser(account, userId);
+        return lineUsername(user) != null || linePhone(account, user) != null ? dp(LINE_DP) : 0;
+    }
+
+    /** The chips replace the "Phone" and "Username" rows. */
+    public static boolean hideRows(long userId) {
+        return lineEnabled(userId);
+    }
+
+    public static Line attachLine(BaseFragment fragment, ViewGroup parent, int account, long userId) {
         Line line = new Line(parent.getContext(), account);
         line.fragment = fragment;
+        line.userId = userId;
         parent.addView(line, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(24)));
         return line;
     }
@@ -154,6 +183,7 @@ public final class NexaProfile {
     public static class Line extends View {
 
         private final int account;
+        private long userId;
         private BaseFragment fragment;
         private final Paint chipPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private final RectF usernameChip = new RectF(), phoneChip = new RectF();
@@ -169,9 +199,9 @@ public final class NexaProfile {
         }
 
         private void refresh() {
-            TLRPC.User user = UserConfig.getInstance(account).getCurrentUser();
-            String u = UserObject.getPublicUsername(user);
-            String p = user != null ? ownPhone(user.phone) : null;
+            TLRPC.User user = lineUser(account, userId);
+            String u = lineUsername(user);
+            String p = linePhone(account, user);
             if (TextUtils.equals(u, lastUsername) && TextUtils.equals(p, lastPhone) && (username != null || phone != null || (u == null && p == null))) {
                 return;
             }
@@ -233,7 +263,7 @@ public final class NexaProfile {
                         pressed = 0;
                         invalidate();
                         if (fragment != null) {
-                            showMenu(fragment, this, isPhone, account);
+                            showMenu(fragment, this, isPhone, account, userId);
                         }
                         return true;
                     }
@@ -284,11 +314,12 @@ public final class NexaProfile {
     }
 
     /** What the "Username" and "Phone" rows did on tap, now on the chips. */
-    public static void showMenu(BaseFragment fragment, View anchor, boolean isPhone, int account) {
-        TLRPC.User user = UserConfig.getInstance(account).getCurrentUser();
+    public static void showMenu(BaseFragment fragment, View anchor, boolean isPhone, int account, long userId) {
+        TLRPC.User user = lineUser(account, userId);
         if (user == null || fragment.getParentActivity() == null) {
             return;
         }
+        final boolean self = UserObject.isUserSelf(user);
         ItemOptions o = ItemOptions.makeOptions(fragment, anchor);
         o.setLongPressSelectionEnabled(false);
         if (isPhone) {
@@ -301,8 +332,20 @@ public final class NexaProfile {
                     BulletinFactory.of(fragment).createCopyBulletin(getString(R.string.PhoneCopied)).show();
                 }
             });
-            o.add(R.drawable.menu_storage_path, getString(R.string.ProfilePhoneEdit), () ->
-                    fragment.presentFragment(new ActionIntroActivity(ActionIntroActivity.ACTION_TYPE_CHANGE_PHONE_NUMBER)));
+            if (self) {
+                o.add(R.drawable.menu_storage_path, getString(R.string.ProfilePhoneEdit), () ->
+                        fragment.presentFragment(new ActionIntroActivity(ActionIntroActivity.ACTION_TYPE_CHANGE_PHONE_NUMBER)));
+            } else {
+                o.add(R.drawable.msg_calls_regular, getString(R.string.Call), () -> {
+                    try {
+                        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_DIAL, android.net.Uri.parse("tel:" + number));
+                        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                        fragment.getParentActivity().startActivity(intent);
+                    } catch (Exception e) {
+                        org.telegram.messenger.FileLog.e(e);
+                    }
+                });
+            }
         } else {
             final String name = UserObject.getPublicUsername(user);
             if (name == null) {
@@ -319,13 +362,26 @@ public final class NexaProfile {
                     BulletinFactory.of(fragment).createCopyBulletin(getString(R.string.LinkCopied)).show();
                 }
             });
-            o.add(R.drawable.msg_qrcode, getString(R.string.QrCode), () -> {
-                Bundle args = new Bundle();
-                args.putLong("user_id", user.id);
-                fragment.presentFragment(new QrShareActivity(args));
-            });
-            o.add(R.drawable.msg_edit, getString(R.string.ProfileUsernameEdit), () ->
-                    fragment.presentFragment(new ChangeUsernameActivity()));
+            if (self) {
+                o.add(R.drawable.msg_qrcode, getString(R.string.QrCode), () -> {
+                    Bundle args = new Bundle();
+                    args.putLong("user_id", user.id);
+                    fragment.presentFragment(new QrShareActivity(args));
+                });
+                o.add(R.drawable.msg_edit, getString(R.string.ProfileUsernameEdit), () ->
+                        fragment.presentFragment(new ChangeUsernameActivity()));
+            } else {
+                o.add(R.drawable.msg_share, getString(R.string.ShareLink), () -> {
+                    try {
+                        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.putExtra(android.content.Intent.EXTRA_TEXT, link);
+                        fragment.getParentActivity().startActivity(android.content.Intent.createChooser(intent, getString(R.string.ShareLink)));
+                    } catch (Exception e) {
+                        org.telegram.messenger.FileLog.e(e);
+                    }
+                });
+            }
         }
         o.show();
     }

@@ -7822,6 +7822,7 @@ public class Theme {
 
             applyCommonTheme();
         }
+        app.nexagram.NexaFonts.fixPaints(Theme.class); // NexaGram: chosen font for the text paints
     }
 
     public static void applyCommonTheme() {
@@ -8007,6 +8008,7 @@ public class Theme {
         dialogs_tagTextPaint.setTextSize(dp(10));
         dialogs_searchNamePaint.setTextSize(dp(16));
         dialogs_searchNameEncryptedPaint.setTextSize(dp(16));
+        app.nexagram.NexaFonts.fixPaints(Theme.class); // NexaGram: chosen font for the text paints
     }
 
     public static void applyDialogsTheme() {
@@ -8151,6 +8153,7 @@ public class Theme {
             chat_msgTextCode2Paint.setTextSize(dp(Math.max(Math.min(10, SharedConfig.fontSize - 2), SharedConfig.fontSize - 3)));
             chat_msgTextCode3Paint.setTextSize(dp(Math.max(Math.min(10, SharedConfig.fontSize - 2), SharedConfig.fontSize - 5)));
         }
+        app.nexagram.NexaFonts.fixPaints(Theme.class); // NexaGram: chosen font for the text paints
     }
 
     public static void createCommonChatResources() {
@@ -8259,6 +8262,7 @@ public class Theme {
             addChatPaint(key_paint_chatComposeBackground, chat_composeBackgroundPaint, key_chat_messagePanelBackground);
             addChatPaint(key_paint_chatTimeBackground, chat_timeBackgroundPaint, key_chat_mediaTimeBackground);
         }
+        app.nexagram.NexaFonts.fixPaints(Theme.class); // NexaGram: chosen font for the text paints
     }
 
     public static void createChatResources(Context context, boolean fontsOnly) {
@@ -8523,6 +8527,7 @@ public class Theme {
             chat_commentTextPaint.setTextSize(dp(14));
             chat_commentTextPaint.setTypeface(AndroidUtilities.bold());
         }
+        app.nexagram.NexaFonts.fixPaints(Theme.class); // NexaGram: chosen font for the text paints
     }
 
     public static void applyChatTheme(boolean fontsOnly, boolean bg) {
@@ -8994,6 +8999,7 @@ public class Theme {
         }
 
         profile_aboutTextPaint.setTextSize(dp(16));
+        app.nexagram.NexaFonts.fixPaints(Theme.class); // NexaGram: chosen font for the text paints
     }
 
     private static ColorFilter currentShareColorFilter;

@@ -9,6 +9,9 @@ import org.telegram.messenger.R;
 
 public class LauncherIconController {
     public static void tryFixLauncherIconIfNeeded() {
+        if (app.nexagram.NexaIcons.anyEnabled()) { // NexaGram: one of our own icons is on
+            return;
+        }
         for (LauncherIcon icon : LauncherIcon.values()) {
             if (isEnabled(icon)) {
                 return;

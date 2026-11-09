@@ -294,6 +294,7 @@ public class ApplicationLoader extends Application {
 
         // AndroidUtilities must be initialized before FileLog
         final String helloWorld = AndroidUtilities.getHelloWorld();
+        app.nexagram.NexaFonts.apply(); // NexaGram: chosen font as the default one
 
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d(helloWorld);

@@ -50,6 +50,9 @@ public class NexaSectionActivity extends UniversalFragment {
     private static final int ID_HIDE_STORIES = 22;
     private static final int ID_NOTE_TOP = 23;
     private static final int ID_WIPE = 24;
+    /** Fonts use ids ID_FONT_FIRST + index in NexaFonts.IDS. */
+    private static final int ID_FONT_FIRST = 400;
+    private NexaIcons.Picker iconPicker;
     /** Chat features with a plain on/off switch use ids ID_CHAT_FIRST + index in CHAT_KEYS. */
     private static final int ID_CHAT_FIRST = 200;
     private static final String[] CHAT_KEYS = {NexaChats.REPEAT, NexaChats.DETAILS, NexaChats.FIRST_MESSAGE, NexaChats.CONFIRM_VOICE, NexaChats.CONFIRM_STICKER};
@@ -105,6 +108,25 @@ public class NexaSectionActivity extends UniversalFragment {
             }
             items.add(UItem.asShadow(getString(R.string.NexaBrandColorsInfo)));
 
+            items.add(UItem.asHeader(getString(R.string.NexaAppIcon)));
+            if (iconPicker == null) {
+                iconPicker = new NexaIcons.Picker(getContext());
+            }
+            items.add(UItem.asCustom(iconPicker, 124));
+            items.add(UItem.asShadow(getString(R.string.NexaAppIconInfo)));
+
+            items.add(UItem.asHeader(getString(R.string.NexaFont)));
+            String font = NexaFonts.current();
+            for (int i = 0; i < NexaFonts.IDS.length; i++) {
+                android.text.SpannableString name = new android.text.SpannableString(NexaFonts.name(i));
+                android.graphics.Typeface tf = NexaFonts.preview(i);
+                if (tf != null) {
+                    name.setSpan(new NexaFonts.Span(tf), 0, name.length(), android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                items.add(UItem.asRadio(ID_FONT_FIRST + i, name).setChecked(NexaFonts.IDS[i].equals(font)));
+            }
+            items.add(UItem.asShadow(getString(R.string.NexaFontInfo)));
+
             items.add(UItem.asHeader(getString(R.string.NexaDesign)));
             for (int i = 0; i < NexaDesign.ALL.length; i++) {
                 items.add(UItem.asCheck(ID_DESIGN_FIRST + i, getString(DESIGN_TITLES[i])).setChecked(NexaDesign.get(NexaDesign.ALL[i])));
@@ -150,7 +172,14 @@ public class NexaSectionActivity extends UniversalFragment {
 
     @Override
     protected void onClick(UItem item, View view, int position, float x, float y) {
-        if (item.id >= ID_COLOR_FIRST && item.id < ID_COLOR_FIRST + NexaTheme.colorCount()) {
+        if (item.id >= ID_FONT_FIRST && item.id < ID_FONT_FIRST + NexaFonts.IDS.length) {
+            String font = NexaFonts.IDS[item.id - ID_FONT_FIRST];
+            if (!font.equals(NexaFonts.current())) {
+                NexaFonts.set(font);
+                listView.adapter.update(true);
+                askRestart(R.string.NexaRestartFontText);
+            }
+        } else if (item.id >= ID_COLOR_FIRST && item.id < ID_COLOR_FIRST + NexaTheme.colorCount()) {
             if (NexaTheme.choice() != item.id - ID_COLOR_FIRST) {
                 NexaTheme.setChoice(item.id - ID_COLOR_FIRST);
                 listView.adapter.update(true);

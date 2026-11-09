@@ -5552,8 +5552,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         onlineTextView.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
         onlineTextView.setFocusable(true);
         avatarContainer2.addView(onlineTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 109 - 4, -2, 8 - 4, 0));
-        if (app.nexagram.NexaProfile.lineEnabled(myProfile)) { // NexaGram
-            nexaProfileLine = app.nexagram.NexaProfile.attachLine(this, avatarContainer2, currentAccount);
+        if (app.nexagram.NexaProfile.lineEnabled(userId)) { // NexaGram
+            nexaProfileLine = app.nexagram.NexaProfile.attachLine(this, avatarContainer2, currentAccount, userId);
         }
         checkPhotoDescriptionAlpha();
         avatarContainer2.addView(animatedStatusView);
@@ -6151,7 +6151,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (getActionsExtraHeight() == 0) {
             return dp(168f);
         }
-        return dp(152f) + app.nexagram.NexaProfile.lineHeight(myProfile); // NexaGram
+        return dp(152f) + app.nexagram.NexaProfile.lineHeight(currentAccount, userId); // NexaGram
     }
 
     // NexaGram: keeps the username/phone line under the status text
@@ -10993,13 +10993,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (userInfo != null && userInfo.note != null && app.nexagram.NexaDesign.get(app.nexagram.NexaChats.NOTE_TOP)) { // NexaGram: the note first
                     noteRow = rowCount++;
                 }
-                if (!isBot && (hasPhone || !hasInfo) && !app.nexagram.NexaProfile.hideRows(myProfile)) { // NexaGram: shown as a chip
+                if (!isBot && (hasPhone || !hasInfo) && !app.nexagram.NexaProfile.hideRows(userId)) { // NexaGram: shown as a chip
                     phoneRow = rowCount++;
                 }
                 if (userInfo != null && !TextUtils.isEmpty(userInfo.about)) {
                     userInfoRow = rowCount++;
                 }
-                if (user != null && username != null && !app.nexagram.NexaProfile.hideRows(myProfile)) { // NexaGram: shown as a chip
+                if (user != null && username != null && !app.nexagram.NexaProfile.hideRows(userId)) { // NexaGram: shown as a chip
                     usernameRow = rowCount++;
                 }
                 if (user != null && !isBot && app.nexagram.NexaChats.showId()) { // NexaGram

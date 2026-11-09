@@ -205,6 +205,167 @@
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity-alias>
 
+        <!-- NexaGram: extra app icons (app.nexagram.NexaIcons) -->
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Cosmos"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_cosmos"
+            android:roundIcon="@mipmap/nexa_alt_cosmos"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Galaxy"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_galaxy"
+            android:roundIcon="@mipmap/nexa_alt_galaxy"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Aurora"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_aurora"
+            android:roundIcon="@mipmap/nexa_alt_aurora"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Nebula"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_nebula"
+            android:roundIcon="@mipmap/nexa_alt_nebula"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Moon"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_moon"
+            android:roundIcon="@mipmap/nexa_alt_moon"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Sunset"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_sunset"
+            android:roundIcon="@mipmap/nexa_alt_sunset"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Ocean"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_ocean"
+            android:roundIcon="@mipmap/nexa_alt_ocean"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Glass"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_glass"
+            android:roundIcon="@mipmap/nexa_alt_glass"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Gold"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_gold"
+            android:roundIcon="@mipmap/nexa_alt_gold"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:enabled="false"
+            android:name="app.nexagram.icon.Night"
+            android:targetActivity="org.telegram.ui.LaunchActivity"
+            android:icon="@mipmap/nexa_alt_night"
+            android:roundIcon="@mipmap/nexa_alt_night"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+        </activity-alias>
+
         <activity
             android:name="org.telegram.ui.LaunchActivity"
             android:theme="@style/Theme.TMessages.Start"

@@ -120,4 +120,22 @@
     <string name="NexaColorRed">Red</string>
     <string name="NexaColorOrange">Orange</string>
     <string name="NexaColorGold">Gold</string>
+    <string name="NexaAppIcon">App icon</string>
+    <string name="NexaAppIconInfo">Icon on your home screen. Some launchers need a few seconds to update it.</string>
+    <string name="NexaIconDefault">NexaGram</string>
+    <string name="NexaIconCosmos">Cosmos</string>
+    <string name="NexaIconGalaxy">Galaxy</string>
+    <string name="NexaIconAurora">Aurora</string>
+    <string name="NexaIconNebula">Nebula</string>
+    <string name="NexaIconMoon">Moon</string>
+    <string name="NexaIconSunset">Sunset</string>
+    <string name="NexaIconOcean">Ocean</string>
+    <string name="NexaIconGlass">Glass</string>
+    <string name="NexaIconGold">Gold</string>
+    <string name="NexaIconNight">Night</string>
+    <string name="NexaFont">Font</string>
+    <string name="NexaFontTelegram">Telegram (default)</string>
+    <string name="NexaFontSystem">Phone font</string>
+    <string name="NexaFontInfo">Font of the whole app. Applied after a restart. All fonts are free (SIL Open Font License).</string>
+    <string name="NexaRestartFontText">The font changes after NexaGram restarts. Restart now?</string>
 </resources>

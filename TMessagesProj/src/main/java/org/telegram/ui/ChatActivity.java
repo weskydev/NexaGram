@@ -3993,7 +3993,9 @@ public class ChatActivity extends BaseFragment implements
                         VoIPHelper.startCall(currentUser, id == video_call, userInfo != null && userInfo.video_calls_available, getParentActivity(), getMessagesController().getUserFull(currentUser.id), getAccountInstance());
                     }
                 } else if (id == app.nexagram.NexaChats.MENU_FIRST_MESSAGE) { // NexaGram
+                    nexaFromServer = true; // the phone may not have the oldest messages saved
                     jumpToDate(1);
+                    nexaFromServer = false;
                 } else if (id == change_colors) {
                     showChatThemeBottomSheet();
                 } else if (id == topic_close) {
@@ -12933,6 +12935,8 @@ public class ChatActivity extends BaseFragment implements
         return groupedMessages;
     }
 
+    private boolean nexaFromServer; // NexaGram: "go to first message" skips the local cache
+
     public void jumpToDate(int date) {
         if (messages.isEmpty()) {
             return;
@@ -12978,7 +12982,7 @@ public class ChatActivity extends BaseFragment implements
             waitingForLoad.add(lastLoadIndex);
             postponedScrollMessageId = 0;
             postponedScrollIsCanceled = false;
-            getMessagesController().loadMessages(dialog_id, mergeDialogId, false, 30, 0, date, true, 0, classGuid, 4, 0, chatMode, threadMessageId, replyMaxReadId, lastLoadIndex++, isTopic);
+            getMessagesController().loadMessages(dialog_id, mergeDialogId, false, 30, 0, date, !nexaFromServer, 0, classGuid, 4, 0, chatMode, threadMessageId, replyMaxReadId, lastLoadIndex++, isTopic);
             floatingDateView.setAlpha(0.0f);
             floatingDateView.setTag(null);
             floatingTopicViewAlpha = 0.0f;

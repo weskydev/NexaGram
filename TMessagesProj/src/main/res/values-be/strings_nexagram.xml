@@ -119,4 +119,22 @@
     <string name="NexaColorRed">Чырвоны</string>
     <string name="NexaColorOrange">Аранжавы</string>
     <string name="NexaColorGold">Залаты</string>
+    <string name="NexaAppIcon">Іконка праграмы</string>
+    <string name="NexaAppIconInfo">Значок на галоўным экране. Некаторым лаўнчарам трэба некалькі секунд, каб яго абнавіць.</string>
+    <string name="NexaIconDefault">NexaGram</string>
+    <string name="NexaIconCosmos">Космас</string>
+    <string name="NexaIconGalaxy">Галактыка</string>
+    <string name="NexaIconAurora">Паўночнае ззянне</string>
+    <string name="NexaIconNebula">Туманнасць</string>
+    <string name="NexaIconMoon">Месяц</string>
+    <string name="NexaIconSunset">Захад сонца</string>
+    <string name="NexaIconOcean">Акіян</string>
+    <string name="NexaIconGlass">Шкло</string>
+    <string name="NexaIconGold">Золата</string>
+    <string name="NexaIconNight">Начная</string>
+    <string name="NexaFont">Шрыфт</string>
+    <string name="NexaFontTelegram">Telegram (па змаўчанні)</string>
+    <string name="NexaFontSystem">Шрыфт тэлефона</string>
+    <string name="NexaFontInfo">Шрыфт усёй праграмы. Ужываецца пасля перазапуску. Усе шрыфты бясплатныя (SIL Open Font License).</string>
+    <string name="NexaRestartFontText">Шрыфт зменіцца пасля перазапуску NexaGram. Перазапусціць зараз?</string>
 </resources>

@@ -778,9 +778,11 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             chatListRow = rowCount++;
             chatListInfoRow = rowCount++;
 
+            if (false) { // NexaGram: Telegram's icons carry its logo; NexaGram has its own icon picker
             appIconHeaderRow = rowCount++;
             appIconSelectorRow = rowCount++;
             appIconShadowRow = rowCount++;
+            }
 
             swipeGestureHeaderRow = rowCount++;
             swipeGestureRow = rowCount++;

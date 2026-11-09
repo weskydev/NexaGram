@@ -262,6 +262,10 @@ public class AndroidUtilities {
 
     public static Typeface bold() {
         if (mediumTypeface == null) {
+            mediumTypeface = app.nexagram.NexaFonts.bold(); // NexaGram: chosen font
+            if (mediumTypeface != null) {
+                return mediumTypeface;
+            }
             if (SharedConfig.useSystemBoldFont && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 mediumTypeface = Typeface.create(null, 500, false);
             } else {
@@ -2499,6 +2503,10 @@ public class AndroidUtilities {
     }
 
     public static Typeface getTypeface(String assetPath) {
+        Typeface nexaFont = app.nexagram.NexaFonts.replace(assetPath); // NexaGram: chosen font
+        if (nexaFont != null) {
+            return nexaFont;
+        }
         synchronized (typefaceCache) {
             if (!typefaceCache.containsKey(assetPath)) {
                 try {

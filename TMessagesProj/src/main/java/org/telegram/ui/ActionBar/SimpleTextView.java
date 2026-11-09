@@ -144,7 +144,7 @@ public class SimpleTextView extends View implements Drawable.Callback {
 
     public SimpleTextView(Context context) {
         super(context);
-        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        textPaint = app.nexagram.NexaFonts.fix(new TextPaint(Paint.ANTI_ALIAS_FLAG)); // NexaGram
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
     }
 
