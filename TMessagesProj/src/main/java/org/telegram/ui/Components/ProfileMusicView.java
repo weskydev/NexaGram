@@ -424,6 +424,7 @@ public class ProfileMusicView extends View {
             }
         }
 
+        if (nexaBlockMode && app.nexagram.NexaGlass.on()) app.nexagram.NexaGlass.rim(canvas, rect, nexaRadius, alpha, true); // NexaGram: glass card
         clipPath.rewind();
         clipPath.addRoundRect(rect, nexaRadius, nexaRadius, Path.Direction.CW); // NexaGram
 

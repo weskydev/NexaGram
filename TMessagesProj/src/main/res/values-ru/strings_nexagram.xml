@@ -137,4 +137,6 @@
     <string name="NexaFontSystem">Шрифт телефона</string>
     <string name="NexaFontInfo">Шрифт всего приложения. Применяется после перезапуска. Все шрифты бесплатные (SIL Open Font License).</string>
     <string name="NexaRestartFontText">Шрифт поменяется после перезапуска NexaGram. Перезапустить сейчас?</string>
+    <string name="NexaGlass">Стеклянный интерфейс</string>
+    <string name="NexaGlassInfo">Прозрачные нижняя панель и шапка с размытием, стеклянные «таблетки», карточки и поиск. Включает размытие в «Энергосбережении». Применяется после перезапуска, на слабых телефонах может тратить больше заряда.</string>
 </resources>

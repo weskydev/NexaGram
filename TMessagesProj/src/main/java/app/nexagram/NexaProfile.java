@@ -299,15 +299,23 @@ public final class NexaProfile {
             final float cy = h / 2f;
             if (username != null) {
                 usernameChip.set(x, 0, x + username.getWidth() + pad * 2, h);
-                chipPaint.setColor(Theme.multAlpha(color, pressed == 1 ? 0.24f : 0.12f));
-                canvas.drawRoundRect(usernameChip, h / 2f, h / 2f, chipPaint);
+                if (NexaGlass.on()) {
+                    NexaGlass.draw(canvas, usernameChip, h / 2f, color, pressed == 1, 1f);
+                } else {
+                    chipPaint.setColor(Theme.multAlpha(color, pressed == 1 ? 0.24f : 0.12f));
+                    canvas.drawRoundRect(usernameChip, h / 2f, h / 2f, chipPaint);
+                }
                 username.draw(canvas, x + pad, cy, color, 1f);
                 x = usernameChip.right + gap;
             }
             if (phone != null) {
                 phoneChip.set(x, 0, x + phone.getWidth() + pad * 2, h);
-                chipPaint.setColor(Theme.multAlpha(color, pressed == 2 ? 0.24f : 0.12f));
-                canvas.drawRoundRect(phoneChip, h / 2f, h / 2f, chipPaint);
+                if (NexaGlass.on()) {
+                    NexaGlass.draw(canvas, phoneChip, h / 2f, color, pressed == 2, 1f);
+                } else {
+                    chipPaint.setColor(Theme.multAlpha(color, pressed == 2 ? 0.24f : 0.12f));
+                    canvas.drawRoundRect(phoneChip, h / 2f, h / 2f, chipPaint);
+                }
                 phone.draw(canvas, x + pad, cy, color, 0.9f);
             }
         }

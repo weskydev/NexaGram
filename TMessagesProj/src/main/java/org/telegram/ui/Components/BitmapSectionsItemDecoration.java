@@ -49,6 +49,9 @@ public class BitmapSectionsItemDecoration extends RecyclerView.ItemDecoration im
     private final Paint sectionPaint = new Paint();
     private final Paint verticesPaint = new Paint();
     private final RectF backgroundRect = new RectF();
+    // NexaGram: section cards get a glass rim on top of everything
+    private final java.util.ArrayList<RectF> nexaRims = new java.util.ArrayList<>();
+    private int nexaRimCount;
     private final Rect cornerSrc = new Rect();
     private final RectF cornerDst = new RectF();
     private Bitmap cornerBitmap;
@@ -151,6 +154,12 @@ public class BitmapSectionsItemDecoration extends RecyclerView.ItemDecoration im
     @Override
     public void onDraw(@NonNull Canvas canvas, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.State state) {
         if (recyclerView != parent) return;
+        nexaRimCount = 0; // NexaGram
+        nexaOnDraw(canvas);
+        for (int i = 0; i < nexaRimCount; i++) app.nexagram.NexaGlass.rim(canvas, nexaRims.get(i), radius, 1f, false); // NexaGram
+    }
+
+    private void nexaOnDraw(@NonNull Canvas canvas) { // NexaGram: Telegram's onDraw
         updateBackgroundColor();
         if (!drawBackground) {
             drawSectionsBackgrounds(canvas);
@@ -534,6 +543,10 @@ public class BitmapSectionsItemDecoration extends RecyclerView.ItemDecoration im
                 Math.min(parent.getHeight() - (parent.applyPaddingToSections ? parent.getPaddingBottom() : -radius), RecyclerListView.bottom(to) + (hasBelow ? radius : 0.0f) - bottomMargin)
         );
         if (backgroundRect.bottom >= backgroundRect.top) drawSectionRect(canvas, backgroundRect, from.getAlpha());
+        if (backgroundRect.bottom > backgroundRect.top && !capturingSections && from.getAlpha() >= 1f && app.nexagram.NexaGlass.on()) { // NexaGram
+            if (nexaRimCount == nexaRims.size()) nexaRims.add(new RectF());
+            nexaRims.get(nexaRimCount++).set(backgroundRect);
+        }
     }
 
     private void drawSectionRect(Canvas canvas, RectF rect, float alpha) {

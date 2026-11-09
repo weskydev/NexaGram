@@ -61,6 +61,10 @@ public final class NexaSettingsLook {
         GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{NexaTheme.tint(0xFF8C73FF), NexaTheme.tint(0xFF6A4FF0), NexaTheme.tint(0xFF8E45E8)});
         bg.setCornerRadius(dp(20));
         card.setBackground(bg);
+        if (NexaGlass.on()) {
+            bg.setAlpha(0xC8);
+            card.setForeground(NexaGlass.rimDrawable(20));
+        }
         card.setPadding(dp(14), 0, dp(14), 0);
         card.setOnClickListener(v -> onClick.run());
         ScaleStateListAnimator.apply(card, 0.03f, 1.2f);

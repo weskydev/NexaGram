@@ -138,4 +138,6 @@
     <string name="NexaFontSystem">Phone font</string>
     <string name="NexaFontInfo">Font of the whole app. Applied after a restart. All fonts are free (SIL Open Font License).</string>
     <string name="NexaRestartFontText">The font changes after NexaGram restarts. Restart now?</string>
+    <string name="NexaGlass">Glass interface</string>
+    <string name="NexaGlassInfo">See-through bottom bar and header with blur, glass chips, cards and search. Turns on blur in Power saving. Applied after a restart; on weak phones it may use more battery.</string>
 </resources>
