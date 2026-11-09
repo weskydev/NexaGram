@@ -8,6 +8,7 @@ Output goes to TMessagesProj/src/main/res (mipmap-*/nexa_alt_<id>*).
 import colorsys
 import os
 
+import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -55,9 +56,21 @@ def from_picture(path):
     img = Image.open(path).convert("RGB")
     side = min(img.size)
     img = img.crop(((img.width - side) // 2, (img.height - side) // 2, (img.width + side) // 2, (img.height + side) // 2))
-    edge = img.resize((BIG, BIG), Image.LANCZOS).filter(ImageFilter.GaussianBlur(40))
-    inner = int(BIG * 76 / 108)  # slightly bigger than the visible 72dp so nothing empty shows
-    edge.paste(img.resize((inner, inner), Image.LANCZOS), ((BIG - inner) // 2, (BIG - inner) // 2))
+    # generators often draw their own rounded corners and a rim: cut them away
+    cut = int(side * 0.075)
+    img = img.crop((cut, cut, side - cut, side - cut))
+    # the picture takes the middle 62dp of the 72dp visible icon, so round masks never cut the logo;
+    # around it the background goes on as a mirror of the picture's own edges (softly blurred)
+    inner = int(BIG * 62 / 108)
+    pic = img.resize((inner, inner), Image.LANCZOS)
+    pad = (BIG - inner) // 2
+    arr = np.pad(np.asarray(pic), ((pad, BIG - inner - pad), (pad, BIG - inner - pad), (0, 0)), mode="symmetric")
+    edge = Image.fromarray(arr).filter(ImageFilter.GaussianBlur(6))
+    fade = int(inner * 0.05)
+    mask = Image.new("L", (inner, inner), 0)
+    ImageDraw.Draw(mask).rectangle((fade, fade, inner - fade, inner - fade), fill=255)
+    mask = mask.filter(ImageFilter.GaussianBlur(fade / 2))
+    edge.paste(pic, (pad, pad), mask)
     return edge
 
 
