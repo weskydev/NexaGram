@@ -24,7 +24,7 @@ public class BlurredBackgroundProviderImpl {
                 final float alpha = LiteMode.isEnabled(LiteMode.FLAG_LIQUID_GLASS) ? 0.85f : 0.76f;
                 final int colorBg = Theme.getColor(Theme.key_windowBackgroundWhite, r);
                 final int colorTarget = Theme.getColor(Theme.key_glass_targetMainTabs, r);
-                return app.nexagram.NexaGlass.bar(solveSrcColor(colorBg, colorTarget, alpha), colorBg, isDark); // NexaGram
+                return solveSrcColor(colorBg, colorTarget, alpha);
             })
             .setStrokeColorTop(0x11000000, 0x06FFFFFF)
             .setStrokeColorBottom(0x20000000, 0x11FFFFFF)
@@ -40,7 +40,7 @@ public class BlurredBackgroundProviderImpl {
                 final float alpha = LiteMode.isEnabled(LiteMode.FLAG_LIQUID_GLASS) ? 0.85f : 0.76f;
                 final int colorBg = Theme.getColor(Theme.key_windowBackgroundWhite, r);
                 final int colorTarget = Theme.getColor(Theme.key_glass_targetMainTopPanel, r);
-                return app.nexagram.NexaGlass.bar(solveSrcColor(colorBg, colorTarget, alpha), colorBg, isDark); // NexaGram
+                return solveSrcColor(colorBg, colorTarget, alpha);
             })
             .setStrokeColorTop(0x11000000, 0x06FFFFFF)
             .setStrokeColorBottom(0x20000000, 0x11FFFFFF)

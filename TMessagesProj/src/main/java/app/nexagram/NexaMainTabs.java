@@ -130,8 +130,7 @@ public final class NexaMainTabs {
 
         @Override
         public void draw(android.graphics.Canvas canvas) {
-            final boolean glass = NexaGlass.on();
-            if (!glass && !NexaDesign.get(NexaDesign.TAB_BAR)) {
+            if (!NexaDesign.get(NexaDesign.TAB_BAR)) {
                 return;
             }
             boolean dark = org.telegram.ui.ActionBar.Theme.isCurrentThemeDark();
@@ -140,10 +139,6 @@ public final class NexaMainTabs {
             rect.set(getBounds());
             rect.inset(inset, inset);
             float r = rect.height() / 2f;
-            if (glass) {
-                NexaGlass.rim(canvas, rect, r, 1f, true);
-                return;
-            }
             fill.setColor(androidx.core.graphics.ColorUtils.setAlphaComponent(accent, dark ? 22 : 14));
             stroke.setColor(androidx.core.graphics.ColorUtils.setAlphaComponent(accent, dark ? 110 : 80));
             canvas.drawRoundRect(rect, r, r, fill);

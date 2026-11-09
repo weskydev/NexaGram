@@ -941,7 +941,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
 
             final boolean isThemeLight = resourceProvider != null ? !resourceProvider.isDark() : !Theme.isCurrentThemeDark();
-            int blurAlpha = app.nexagram.NexaGlass.headerAlpha(isThemeLight ? 216 : ChatActivity.ACTION_BAR_BLUR_ALPHA, isThemeLight); // NexaGram
+            int blurAlpha = isThemeLight ? 216 : ChatActivity.ACTION_BAR_BLUR_ALPHA;
             canvas.save();
             canvas.translate(0, -y);
             iBlur3SourceGlassFrosted.draw(canvas, rectTmp.left, rectTmp.top + y, rectTmp.right, rectTmp.bottom + y);

@@ -182,9 +182,6 @@ public final class NexaChatList {
 
     /** Light accent-tinted search pill instead of Telegram's gray one. */
     public static Drawable searchBackground(Drawable telegram, boolean plainField) {
-        if (plainField && NexaGlass.on()) {
-            return NexaGlass.drawable(20, accent());
-        }
         if (!plainField || !NexaDesign.get(NexaDesign.ACCENT_SEARCH)) {
             return telegram;
         }

@@ -50,7 +50,6 @@ public class NexaSectionActivity extends UniversalFragment {
     private static final int ID_HIDE_STORIES = 22;
     private static final int ID_NOTE_TOP = 23;
     private static final int ID_WIPE = 24;
-    private static final int ID_GLASS = 25;
     /** Fonts use ids ID_FONT_FIRST + index in NexaFonts.IDS. */
     private static final int ID_FONT_FIRST = 400;
     private NexaIcons.Picker iconPicker;
@@ -108,9 +107,6 @@ public class NexaSectionActivity extends UniversalFragment {
                 items.add(UItem.asRadio(ID_COLOR_FIRST + i, colorName(i)).setChecked(chosen == i));
             }
             items.add(UItem.asShadow(getString(R.string.NexaBrandColorsInfo)));
-
-            items.add(UItem.asCheck(ID_GLASS, getString(R.string.NexaGlass)).setChecked(NexaGlass.isSet()));
-            items.add(UItem.asShadow(getString(R.string.NexaGlassInfo)));
 
             items.add(UItem.asHeader(getString(R.string.NexaAppIcon)));
             if (iconPicker == null) {
@@ -223,10 +219,6 @@ public class NexaSectionActivity extends UniversalFragment {
         } else if (item.id == ID_SELECT_ALL) {
             NexaDesign.set(NexaSelectAll.KEY, !NexaSelectAll.isEnabled());
             listView.adapter.update(true);
-        } else if (item.id == ID_GLASS) {
-            NexaGlass.set(!NexaGlass.isSet());
-            listView.adapter.update(true);
-            askRestart(R.string.NexaRestartDesignText);
         } else if (item.id == ID_DESIGN_RESET) {
             boolean restart = false;
             for (String key : NexaDesign.ALL) {

@@ -40,7 +40,7 @@ public final class NexaDesign {
 
     /** Features that change how Telegram behaves start switched off. */
     private static final java.util.Set<String> OFF_BY_DEFAULT = new java.util.HashSet<>(java.util.Arrays.asList(
-            "feature_confirm_voice", "feature_confirm_sticker", "feature_hide_stories", NexaGlass.KEY));
+            "feature_confirm_voice", "feature_confirm_sticker", "feature_hide_stories"));
 
     public static boolean get(String key) {
         boolean def = !OFF_BY_DEFAULT.contains(key);
