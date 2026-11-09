@@ -3188,6 +3188,13 @@ public class ChatActivityEnterView extends FrameLayout implements
                                     });
                                     return true;
                                 }
+                                if (app.nexagram.NexaChats.confirmVoice()) { // NexaGram: show the preview, sending is a separate tap
+                                    if (slideText != null) {
+                                        slideText.setEnabled(false);
+                                    }
+                                    delegate.toggleVideoRecordingPause();
+                                    return true;
+                                }
                                 CameraController.getInstance().cancelOnInitRunnable(onFinishInitCameraRunnable);
                                 delegate.needStartRecordVideo(1, true, 0, 0, voiceOnce ? 0x7FFFFFFF : 0, effectId, 0);
                                 sendButton.setEffect(effectId = 0);
@@ -3210,6 +3217,17 @@ public class ChatActivityEnterView extends FrameLayout implements
                                 }
                                 if (recordingAudioVideo && isInScheduleMode()) {
                                     AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate, scheduleRepeatPeriod) -> MediaController.getInstance().stopRecording(1, notify, scheduleDate, false, 0), () -> MediaController.getInstance().stopRecording(0, false, 0, false, 0), resourcesProvider);
+                                }
+                                if (app.nexagram.NexaChats.confirmVoice() && !isInScheduleMode()) { // NexaGram: show the preview, sending is a separate tap
+                                    if (sendButtonVisible) {
+                                        calledRecordRunnable = true;
+                                    }
+                                    MediaController.getInstance().toggleRecordingPause(voiceOnce);
+                                    delegate.needStartRecordAudio(0);
+                                    if (slideText != null) {
+                                        slideText.setEnabled(false);
+                                    }
+                                    return true;
                                 }
                                 delegate.needStartRecordAudio(0);
                                 MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0, voiceOnce, 0);
@@ -12763,6 +12781,7 @@ public class ChatActivityEnterView extends FrameLayout implements
     @Override
     public void onStickerSelected(TLRPC.Document sticker, String query, Object parent, MessageObject.SendAnimationData sendAnimationData, boolean clearsInputField, boolean notify, int scheduleDate, int scheduleRepeatPeriod) {
         if (isLiveComment) return;
+        if (app.nexagram.NexaChats.confirmSticker(parentActivity, () -> onStickerSelected(sticker, query, parent, sendAnimationData, clearsInputField, notify, scheduleDate, scheduleRepeatPeriod))) return; // NexaGram
         if (replyingQuote != null && parentFragment != null && replyingQuote.outdated) {
             parentFragment.showQuoteMessageUpdate();
             return;

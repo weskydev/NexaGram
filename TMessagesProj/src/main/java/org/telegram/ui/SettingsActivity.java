@@ -815,7 +815,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
         items.add(UItem.asShadow(null));
         if (!app.nexagram.NexaSettingsLook.isEnabled()) { // NexaGram: the card above replaces this row
-            items.add(SettingCell.Factory.of(app.nexagram.NexaSettingsActivity.SETTINGS_ROW_ID, 0xFF9B85FF, 0xFF6A4FF0, R.drawable.nexa_logo, getString(R.string.NexaSettings)));
+            items.add(SettingCell.Factory.of(app.nexagram.NexaSettingsActivity.SETTINGS_ROW_ID, app.nexagram.NexaTheme.tint(0xFF9B85FF), app.nexagram.NexaTheme.tint(0xFF6A4FF0), R.drawable.nexa_logo, getString(R.string.NexaSettings)));
             items.add(UItem.asShadow(null));
         }
         if (!walletAbove && getMessagesController().config.walletAvailable.get()) {

@@ -12466,13 +12466,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         boolean onlySelfStories = !isArchive() && getStoriesController().hasOnlySelfStories();
         boolean newVisibility;
-        if (communityId != 0) {
+        if (communityId != 0 || app.nexagram.NexaDesign.get(app.nexagram.NexaChats.HIDE_STORIES) && !isArchive()) { // NexaGram: stories bar hidden
             newVisibility = false;
         } else if (isArchive()) {
             newVisibility = !getStoriesController().getHiddenList().isEmpty();
         } else {
             newVisibility = !onlySelfStories && getStoriesController().hasStories();
             onlySelfStories = getStoriesController().hasOnlySelfStories();
+        }
+        if (app.nexagram.NexaDesign.get(app.nexagram.NexaChats.HIDE_STORIES) && !isArchive()) { // NexaGram
+            onlySelfStories = false;
         }
 
         hasOnlySlefStories = onlySelfStories;

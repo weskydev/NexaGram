@@ -3992,6 +3992,8 @@ public class ChatActivity extends BaseFragment implements
                     if (currentUser != null && getParentActivity() != null) {
                         VoIPHelper.startCall(currentUser, id == video_call, userInfo != null && userInfo.video_calls_available, getParentActivity(), getMessagesController().getUserFull(currentUser.id), getAccountInstance());
                     }
+                } else if (id == app.nexagram.NexaChats.MENU_FIRST_MESSAGE) { // NexaGram
+                    jumpToDate(1);
                 } else if (id == change_colors) {
                     showChatThemeBottomSheet();
                 } else if (id == topic_close) {
@@ -4397,6 +4399,9 @@ public class ChatActivity extends BaseFragment implements
             }
             translateItem = headerItem.lazilyAddSubItem(translate, R.drawable.msg_translate, LocaleController.getString(R.string.TranslateMessage));
             updateTranslateItemVisibility();
+            if (app.nexagram.NexaChats.firstMessage() && currentEncryptedChat == null && chatMode == 0) { // NexaGram
+                headerItem.lazilyAddSubItem(app.nexagram.NexaChats.MENU_FIRST_MESSAGE, R.drawable.msg_go_up, LocaleController.getString(R.string.NexaFirstMessage));
+            }
             if (currentChat != null && !currentChat.creator && !ChatObject.hasAdminRights(currentChat)) {
                 headerItem.lazilyAddSubItem(report, R.drawable.msg_report, LocaleController.getString(R.string.ReportChat));
             }
@@ -34246,6 +34251,25 @@ public class ChatActivity extends BaseFragment implements
         }
         boolean preserveDim = false;
         switch (option) {
+            case app.nexagram.NexaChats.OPTION_REPEAT: { // NexaGram: send the message again, without "forwarded from"
+                final ArrayList<MessageObject> repeat = new ArrayList<>();
+                if (selectedObjectGroup != null) {
+                    repeat.addAll(selectedObjectGroup.messages);
+                } else {
+                    repeat.add(selectedObject);
+                }
+                AlertsCreator.ensurePaidMessageConfirmation(currentAccount, getDialogId(), repeat.size(), payStars -> {
+                    getSendMessagesHelper().sendMessage(repeat, dialog_id, true, false, true, 0, 0, getThreadMessage(), -1, payStars, getSendMonoForumPeerId(), null);
+                    if (chatMode == 0) {
+                        moveScrollToLastMessage(false);
+                    }
+                });
+                break;
+            }
+            case app.nexagram.NexaChats.OPTION_DETAILS: { // NexaGram
+                app.nexagram.NexaChats.showDetails(this, selectedObject);
+                break;
+            }
             case OPTION_RETRY: {
                 final MessageObject object = selectedObject;
                 final MessageObject.GroupedMessages group = selectedObjectGroup;
@@ -46868,6 +46892,16 @@ public class ChatActivity extends BaseFragment implements
                     items.add(LocaleController.getString(R.string.Forward));
                     options.add(OPTION_FORWARD);
                     icons.add(R.drawable.msg_forward);
+                }
+                if (canForward && app.nexagram.NexaChats.repeat() && chatMode == 0 && canSendMessage() && chatActivityEnterView != null && chatActivityEnterView.getVisibility() == View.VISIBLE && !message.isSponsored()) { // NexaGram: +1
+                    items.add(LocaleController.getString(R.string.NexaRepeat));
+                    options.add(app.nexagram.NexaChats.OPTION_REPEAT);
+                    icons.add(R.drawable.msg_retry);
+                }
+                if (app.nexagram.NexaChats.details() && message.getId() > 0 && !message.isSponsored()) { // NexaGram
+                    items.add(LocaleController.getString(R.string.NexaDetails));
+                    options.add(app.nexagram.NexaChats.OPTION_DETAILS);
+                    icons.add(R.drawable.msg_info);
                 }
                 if (allowUnpin) {
                     items.add(LocaleController.getString(R.string.UnpinMessage));

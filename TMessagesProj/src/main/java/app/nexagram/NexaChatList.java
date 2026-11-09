@@ -40,7 +40,7 @@ public final class NexaChatList {
     }
 
     public static int accent() {
-        return NexaTheme.isEnabled() ? NexaTheme.ACCENT : Theme.getColor(Theme.key_chats_actionBackground);
+        return NexaTheme.isEnabled() ? NexaTheme.accent() : Theme.getColor(Theme.key_chats_actionBackground);
     }
 
     private static boolean isDark() {

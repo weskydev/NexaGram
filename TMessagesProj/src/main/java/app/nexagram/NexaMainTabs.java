@@ -68,13 +68,13 @@ public final class NexaMainTabs {
         tabsView.setLayoutParams(tabsParams);
 
         FrameLayout button = new FrameLayout(context);
-        GradientDrawable background = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{0xFF8F78FF, 0xFF6A4FF0});
+        GradientDrawable background = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{NexaTheme.tint(0xFF8F78FF), NexaTheme.tint(0xFF6A4FF0)});
         background.setShape(GradientDrawable.OVAL);
         button.setBackground(background);
         button.setElevation(dp(4));
         if (Build.VERSION.SDK_INT >= 28) {
-            button.setOutlineSpotShadowColor(NexaTheme.ACCENT);
-            button.setOutlineAmbientShadowColor(NexaTheme.ACCENT);
+            button.setOutlineSpotShadowColor(NexaTheme.accent());
+            button.setOutlineAmbientShadowColor(NexaTheme.accent());
         }
         button.setContentDescription(LocaleController.getString(R.string.NewMessageTitle));
 

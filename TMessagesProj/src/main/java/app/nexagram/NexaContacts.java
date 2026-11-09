@@ -16,7 +16,7 @@ public final class NexaContacts {
 
     /** Violet gradients for the colorful row icons (first row, second row). */
     private static final int[][] ICON_COLORS = {
-            {0xFF9B85FF, 0xFF6A4FF0},
+            {NexaTheme.tint(0xFF9B85FF), NexaTheme.tint(0xFF6A4FF0)},
             {0xFFC08CFF, 0xFF9356F0},
     };
 

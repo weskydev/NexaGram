@@ -58,7 +58,7 @@ public final class NexaSettingsLook {
         LinearLayout card = new LinearLayout(context);
         card.setOrientation(LinearLayout.HORIZONTAL);
         card.setGravity(Gravity.CENTER_VERTICAL);
-        GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{0xFF8C73FF, 0xFF6A4FF0, 0xFF8E45E8});
+        GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{NexaTheme.tint(0xFF8C73FF), NexaTheme.tint(0xFF6A4FF0), NexaTheme.tint(0xFF8E45E8)});
         bg.setCornerRadius(dp(20));
         card.setBackground(bg);
         card.setPadding(dp(14), 0, dp(14), 0);

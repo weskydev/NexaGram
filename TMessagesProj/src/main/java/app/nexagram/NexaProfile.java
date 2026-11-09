@@ -466,7 +466,7 @@ public final class NexaProfile {
             } else {
                 if (gradient == null || gradientTop != tile.top) {
                     gradientTop = tile.top;
-                    gradient = new LinearGradient(tile.left, tile.top, tile.right, tile.bottom, 0xFF9B85FF, 0xFF6A4FF0, Shader.TileMode.CLAMP);
+                    gradient = new LinearGradient(tile.left, tile.top, tile.right, tile.bottom, NexaTheme.tint(0xFF9B85FF), NexaTheme.tint(0xFF6A4FF0), Shader.TileMode.CLAMP);
                     tilePaint.setShader(gradient);
                 }
                 tilePaint.setAlpha((int) (0xFF * alpha));

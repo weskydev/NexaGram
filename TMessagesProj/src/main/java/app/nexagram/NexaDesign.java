@@ -38,11 +38,16 @@ public final class NexaDesign {
         return ApplicationLoader.applicationContext.getSharedPreferences("nexagram", Context.MODE_PRIVATE);
     }
 
+    /** Features that change how Telegram behaves start switched off. */
+    private static final java.util.Set<String> OFF_BY_DEFAULT = new java.util.HashSet<>(java.util.Arrays.asList(
+            "feature_confirm_voice", "feature_confirm_sticker", "feature_hide_stories"));
+
     public static boolean get(String key) {
+        boolean def = !OFF_BY_DEFAULT.contains(key);
         if (ApplicationLoader.applicationContext == null) {
-            return true;
+            return def;
         }
-        return prefs().getBoolean(key, true);
+        return prefs().getBoolean(key, def);
     }
 
     public static void set(String key, boolean value) {

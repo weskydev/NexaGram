@@ -668,7 +668,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int infoHeaderRowEmpty;
     private int infoEndRowEmpty;
     private int phoneRow;
-    private int nexaIdRow = -1; // NexaGram: user ID
+    private int nexaIdRow = -1; // NexaGram: user / chat ID
+    private int nexaRegRow = -1; // NexaGram: approximate registration date
     private int noteRow;
     private int locationRow;
     private int userInfoRow;
@@ -4277,7 +4278,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             listView.stopScroll();
             if (position == nexaIdRow) { // NexaGram
-                app.nexagram.NexaChats.copyId(ProfileActivity.this, userId);
+                app.nexagram.NexaChats.copyId(ProfileActivity.this, app.nexagram.NexaChats.idText(userId, currentChat));
                 return;
             }
             if (position == affiliateRow) {
@@ -10735,6 +10736,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         numberRow = -1;
         birthdayRow = -1;
         nexaIdRow = -1; // NexaGram
+        nexaRegRow = -1;
         setUsernameRow = -1;
         bioRow = -1;
         channelRow = -1;
@@ -10988,6 +10990,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
                 infoStartRow = rowCount;
+                if (userInfo != null && userInfo.note != null && app.nexagram.NexaDesign.get(app.nexagram.NexaChats.NOTE_TOP)) { // NexaGram: the note first
+                    noteRow = rowCount++;
+                }
                 if (!isBot && (hasPhone || !hasInfo) && !app.nexagram.NexaProfile.hideRows(myProfile)) { // NexaGram: shown as a chip
                     phoneRow = rowCount++;
                 }
@@ -11000,6 +11005,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (user != null && !isBot && app.nexagram.NexaChats.showId()) { // NexaGram
                     nexaIdRow = rowCount++;
                 }
+                if (user != null && !isBot && app.nexagram.NexaChats.showRegDate()) { // NexaGram
+                    nexaRegRow = rowCount++;
+                }
                 if (userInfo != null) {
                     if (userInfo.birthday != null) {
                         birthdayRow = rowCount++;
@@ -11010,7 +11018,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (userInfo.business_location != null) {
                         bizLocationRow = rowCount++;
                     }
-                    if (userInfo.note != null) {
+                    if (userInfo.note != null && noteRow == -1) { // NexaGram: unless it's already on top
                         noteRow = rowCount++;
                     }
                 }
@@ -11158,6 +11166,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (ChatObject.isPublic(currentChat)) {
                     usernameRow = rowCount++;
                 }
+                if (app.nexagram.NexaChats.showId()) { // NexaGram
+                    nexaIdRow = rowCount++;
+                }
             }
             if (emptyRow < 0 && emptyRow2 < 0) {
                 if (hasMusic || hasBalance || peerColor != null || actionsView == null) {
@@ -11165,6 +11176,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else {
                     emptyRow = rowCount++;
                 }
+            }
+            if (nexaIdRow == -1 && app.nexagram.NexaChats.showId()) { // NexaGram: chats without a description
+                nexaIdRow = rowCount++;
             }
             if (actionsView == null) {
                 if (infoHeaderRow != -1) {
@@ -13546,7 +13560,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     boolean containsQr = false;
                     boolean containsGift = false;
                     if (position == nexaIdRow) { // NexaGram
-                        detailCell.setTextAndValue(app.nexagram.NexaChats.idText(userId), "ID", false);
+                        detailCell.setTextAndValue(app.nexagram.NexaChats.idText(userId, currentChat), "ID", nexaRegRow != -1);
+                    } else if (position == nexaRegRow) { // NexaGram
+                        detailCell.setTextAndValue(app.nexagram.NexaChats.regDateText(userId), getString(R.string.NexaRegDate), false);
                     } else if (position == birthdayRow) {
                         TLRPC.UserFull userFull = getMessagesController().getUserFull(userId);
                         if (userFull != null && userFull.birthday != null) {
@@ -14414,7 +14430,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (position == infoHeaderRow || position == membersHeaderRow || position == settingsSectionRow2 ||
                     position == numberSectionRow || position == helpHeaderRow || position == debugHeaderRow || position == botPermissionsHeader) {
                 return VIEW_TYPE_HEADER;
-            } else if (position == phoneRow || position == locationRow || position == numberRow || position == birthdayRow || position == nexaIdRow) { // NexaGram: ID
+            } else if (position == phoneRow || position == locationRow || position == numberRow || position == birthdayRow || position == nexaIdRow || position == nexaRegRow) { // NexaGram: ID, registration
                 return VIEW_TYPE_TEXT_DETAIL;
             } else if (position == usernameRow || position == setUsernameRow) {
                 return VIEW_TYPE_TEXT_DETAIL_MULTILINE;
@@ -15734,6 +15750,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, infoEndRowEmpty, sparseIntArray);
             put(++pointer, phoneRow, sparseIntArray);
             put(++pointer, nexaIdRow, sparseIntArray); // NexaGram
+            put(++pointer, nexaRegRow, sparseIntArray);
             put(++pointer, noteRow, sparseIntArray);
             put(++pointer, locationRow, sparseIntArray);
             put(++pointer, userInfoRow, sparseIntArray);

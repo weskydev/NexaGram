@@ -21,9 +21,17 @@ public final class NexaTheme {
     /** Main NexaGram accent (violet). */
     public static final int ACCENT = 0xFF7B61FF;
 
+    /** Theme colors to choose from: hue the Telegram blue is turned into. BLUE keeps Telegram's colors. */
+    public static final int VIOLET = 0, BLUE = 1, TEAL = 2, GREEN = 3, PINK = 4, RED = 5, ORANGE = 6, GOLD = 7;
+    private static final float[] HUES = {250f, 205f, 180f, 145f, 325f, 355f, 22f, 42f};
+    private static final String KEY_ACCENT = "accent_color";
+    private static Integer choice;
+
     // Telegram's main blue (0xFF229AF0) has hue ~205°, our violet ~250°.
     private static final float SOURCE_HUE = 205f;
-    private static final float TARGET_HUE = 250f;
+    private static float targetHue() {
+        return HUES[choice()];
+    }
     // Hue band treated as "Telegram blue"; colors fade out of the shift near the edges.
     private static final float BAND_START = 178f;
     private static final float BAND_FULL_START = 188f;
@@ -40,23 +48,67 @@ public final class NexaTheme {
     private NexaTheme() {
     }
 
-    /** true = NexaGram violet, false = classic Telegram blue. */
+    /** true = NexaGram colors, false = classic Telegram blue. */
     public static boolean isEnabled() {
-        if (enabled == null) {
+        return choice() != BLUE;
+    }
+
+    /** The chosen theme color, one of VIOLET..GOLD. */
+    public static int choice() {
+        if (choice == null) {
             Context context = ApplicationLoader.applicationContext;
             if (context == null) {
-                return true;
+                return VIOLET;
             }
-            enabled = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_BRAND_COLORS, true);
+            android.content.SharedPreferences p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+            // older versions only had violet on / off
+            int def = p.getBoolean(KEY_BRAND_COLORS, true) ? VIOLET : BLUE;
+            int c = p.getInt(KEY_ACCENT, def);
+            choice = c >= 0 && c < HUES.length ? c : VIOLET;
         }
-        return enabled;
+        return choice;
     }
 
     /** Saves the choice. Takes effect after the app restarts. */
-    public static void setEnabled(boolean value) {
-        enabled = value;
+    public static void setChoice(int value) {
+        choice = value;
         ApplicationLoader.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                .edit().putBoolean(KEY_BRAND_COLORS, value).apply();
+                .edit().putInt(KEY_ACCENT, value).putBoolean(KEY_BRAND_COLORS, value != BLUE).apply();
+    }
+
+    public static int colorCount() {
+        return HUES.length;
+    }
+
+    /** The main color of a choice, for the picker and the app's own accents. */
+    public static int accentOf(int which) {
+        if (which == VIOLET) {
+            return ACCENT;
+        }
+        if (which == BLUE) {
+            return 0xFF3E88F7;
+        }
+        return tint(ACCENT, which);
+    }
+
+    /** Main accent of the current choice. */
+    public static int accent() {
+        return accentOf(choice());
+    }
+
+    /** One of NexaGram's violet shades turned into the chosen color (same brightness). */
+    public static int tint(int violet) {
+        return tint(violet, choice());
+    }
+
+    private static int tint(int violet, int which) {
+        if (which == VIOLET) {
+            return violet;
+        }
+        float[] hsv = new float[3];
+        Color.colorToHSV(violet, hsv);
+        hsv[0] = (hsv[0] + HUES[which] - HUES[VIOLET] + 360f) % 360f;
+        return Color.HSVToColor(Color.alpha(violet), hsv);
     }
 
     /** Recolors a single ARGB color. Non-blue colors come back unchanged. */
@@ -77,7 +129,7 @@ public final class NexaTheme {
         if (weight <= 0f) {
             return color;
         }
-        hsv[0] = hsv[0] + (TARGET_HUE - SOURCE_HUE) * weight;
+        hsv[0] = (hsv[0] + (targetHue() - SOURCE_HUE) * weight + 360f) % 360f;
         hsv[1] = hsv[1] * (1f - (1f - SATURATION_SCALE) * weight);
         return Color.HSVToColor(alpha, hsv);
     }
