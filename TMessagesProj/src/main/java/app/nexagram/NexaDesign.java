@@ -18,13 +18,18 @@ public final class NexaDesign {
     public static final String TAB_BAR = "design_tab_bar";
     public static final String DOCKED_COMPOSE = "design_docked_compose";
     public static final String CONTACTS_DESIGN = "design_contacts";
+    public static final String SETTINGS_DESIGN = "design_settings";
+    public static final String PROFILE_LINE = "design_profile_line";
+    public static final String MUSIC_BLOCK = "design_music_block";
 
-    public static final String[] ALL = {CHAT_CARDS, SQUARE_AVATARS, PINNED_TINT, ACCENT_SEARCH, TAB_BAR, DOCKED_COMPOSE, CONTACTS_DESIGN};
+    public static final String[] ALL = {CHAT_CARDS, SQUARE_AVATARS, PINNED_TINT, ACCENT_SEARCH, TAB_BAR, DOCKED_COMPOSE, CONTACTS_DESIGN, SETTINGS_DESIGN, PROFILE_LINE, MUSIC_BLOCK};
 
     /** Bumped on every change so lists can notice and redraw. */
     private static int version;
     /** Docked compose button is built once per launch, so its value is frozen until restart. */
     private static Boolean dockedComposeAtLaunch;
+    /** Profile header heights are set once per launch too. */
+    private static Boolean profileLineAtLaunch, musicBlockAtLaunch;
 
     private NexaDesign() {
     }
@@ -45,13 +50,19 @@ public final class NexaDesign {
         version++;
     }
 
+    /** Marks a change of some other NexaGram option, so lists redraw. */
+    public static void bump() {
+        version++;
+    }
+
     public static int version() {
         return version;
     }
 
     /** Settings that only apply after a restart. */
     public static boolean needsRestart(String key) {
-        return DOCKED_COMPOSE.equals(key) || ACCENT_SEARCH.equals(key);
+        return DOCKED_COMPOSE.equals(key) || ACCENT_SEARCH.equals(key) || SETTINGS_DESIGN.equals(key)
+                || PROFILE_LINE.equals(key) || MUSIC_BLOCK.equals(key);
     }
 
     public static boolean dockedCompose() {
@@ -59,5 +70,19 @@ public final class NexaDesign {
             dockedComposeAtLaunch = get(DOCKED_COMPOSE);
         }
         return dockedComposeAtLaunch;
+    }
+
+    public static boolean profileLine() {
+        if (profileLineAtLaunch == null) {
+            profileLineAtLaunch = get(PROFILE_LINE);
+        }
+        return profileLineAtLaunch;
+    }
+
+    public static boolean musicBlock() {
+        if (musicBlockAtLaunch == null) {
+            musicBlockAtLaunch = get(MUSIC_BLOCK);
+        }
+        return musicBlockAtLaunch;
     }
 }

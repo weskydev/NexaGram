@@ -49,4 +49,13 @@
     <string name="NexaSelectAll">Select all</string>
     <string name="NexaSelectAllChats">Select all chats</string>
     <string name="NexaSelectAllInfo">In chat selection mode (long-press a chat), the ⋮ menu gets \"Select all\": then read, mute or archive them all at once. Big selections are read and muted in small batches with pauses, so Telegram doesn\'t limit your account.</string>
+    <string name="NexaSettingsDesign">Settings tab</string>
+    <string name="NexaProfileLine">Username and phone in profile</string>
+    <string name="NexaMusicBlock">Music block in profile</string>
+    <string name="NexaSettingsBannerInfo">Look, features and sections</string>
+    <string name="NexaPhoneShown">Your phone number</string>
+    <string name="NexaPhoneFull">Show in full</string>
+    <string name="NexaPhoneCode">Country code only</string>
+    <string name="NexaPhoneHidden">Hide</string>
+    <string name="NexaPhoneInfo">How your own number is shown in your profile and the Settings header. Handy for screenshots and streams. Others still see it as your privacy settings allow.</string>
 </resources>

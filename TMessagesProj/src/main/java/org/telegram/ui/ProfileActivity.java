@@ -369,6 +369,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private String nameTextViewRightDrawable2ContentDescription = null;
     /** The status under the name, or the description of the photo while the avatar is expanded. */
     private AnimatedClickableSmallTextView onlineTextView;
+    private app.nexagram.NexaProfile.Line nexaProfileLine; // NexaGram: username and phone under the status
     private RLottieImageView writeButton;
     private AnimatorSet writeButtonAnimation;
     private Drawable lockIconDrawable;
@@ -5532,11 +5533,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             public void setAlpha(float alpha) {
                 super.setAlpha(alpha);
                 checkPhotoDescriptionAlpha();
+                nexaFollowLine(); // NexaGram
             }
 
             @Override
             public void setTranslationY(float translationY) {
                 super.setTranslationY(translationY);
+                nexaFollowLine(); // NexaGram
                 lastRatingViewTranslationYOffset = getRatingViewTranslationYOffset();
                 if (ratingView != null) {
                     ratingView.setTranslationY(translationY - dp(5));
@@ -5555,6 +5558,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             @Override
             public void setTextColor(int color) {
                 onlineTextColor = color;
+                nexaFollowLine(); // NexaGram
                 color = ColorUtils.blendARGB(color, getThemedColor(Theme.key_windowBackgroundWhiteGrayText), headerBlurFactor);
                 super.setTextColor(color);
                 if (showStatusButton != null) {
@@ -5571,6 +5575,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         onlineTextView.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
         onlineTextView.setFocusable(true);
         avatarContainer2.addView(onlineTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 109 - 4, -2, 8 - 4, 0));
+        if (app.nexagram.NexaProfile.lineEnabled(myProfile)) { // NexaGram
+            nexaProfileLine = app.nexagram.NexaProfile.attachLine(avatarContainer2, currentAccount);
+        }
         checkPhotoDescriptionAlpha();
         avatarContainer2.addView(animatedStatusView);
 
@@ -6167,7 +6174,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (getActionsExtraHeight() == 0) {
             return dp(168f);
         }
-        return dp(152f);
+        return dp(152f) + app.nexagram.NexaProfile.lineHeight(myProfile); // NexaGram
+    }
+
+    // NexaGram: keeps the username/phone line under the status text
+    private void nexaFollowLine() {
+        if (nexaProfileLine != null && onlineTextView != null) {
+            nexaProfileLine.follow(onlineTextView, peerColor != null ? onlineTextColor : app.nexagram.NexaChatList.accent(), calculateHeaderExtraDiff(), expandProgress);
+        }
     }
 
     private int getActionsExtraHeight() {
@@ -6176,7 +6190,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int getActionsExtraHeight(boolean withPills) {
         if (userId != 0 && imageUpdater != null && !myProfile)
             return 0;
-        return dp(74 + (withPills && (hasMusic || hasBalance) ? 25 : 0));
+        return dp(74 + (withPills && (hasMusic || hasBalance) ? 25 : 0)) + (withPills && (hasMusic || hasBalance) ? app.nexagram.NexaProfile.musicExtra() : 0); // NexaGram: taller music block
     }
 
     private int getHeaderExtraHeight() {
@@ -11467,7 +11481,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             actionsView.updatePosition(listView.getMeasuredWidth(), dp(74));
         } else {
             actionsView.clipHeight = -1;
-            float bottom = extraHeight + newTop - dp(hasMusic || hasBalance ? 25 : 0);
+            float bottom = extraHeight + newTop - dp(hasMusic || hasBalance ? 25 : 0) - (hasMusic || hasBalance ? app.nexagram.NexaProfile.musicExtra() : 0); // NexaGram: room for the music block
             float height = Math.min(dp(74), bottom - newTop);
             actionsView.updatePosition(bottom - height, height);
         }
@@ -13560,6 +13574,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             phoneNumber = null;
                         }
                         isFragmentPhoneNumber = phoneNumber != null && phoneNumber.matches("888\\d{8}");
+                        if (myProfile && phoneNumber != null && app.nexagram.NexaProfile.phoneMode() != app.nexagram.NexaProfile.PHONE_FULL) { // NexaGram
+                            String shown = app.nexagram.NexaProfile.ownPhone(phoneNumber);
+                            text = shown != null ? shown : LocaleController.getString(R.string.PhoneHidden);
+                        }
                         detailCell.setTextAndValue(text, LocaleController.getString(isFragmentPhoneNumber ? R.string.AnonymousNumber : R.string.PhoneMobile), false);
                     } else if (position == noteRow) {
                         final TLRPC.UserFull userInfo = getMessagesController().getUserFull(userId);

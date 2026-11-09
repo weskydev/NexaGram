@@ -48,4 +48,13 @@
     <string name="NexaSelectAll">Выбрать все</string>
     <string name="NexaSelectAllChats">Выбрать все чаты</string>
     <string name="NexaSelectAllInfo">В режиме выделения (долгое нажатие на чат) в меню ⋮ появится «Выбрать все»: потом можно разом прочитать, заглушить или заархивировать. Большие выделения читаются и глушатся небольшими порциями с паузами, чтобы Telegram не ограничил аккаунт.</string>
+    <string name="NexaSettingsDesign">Вкладка настроек</string>
+    <string name="NexaProfileLine">Юзернейм и номер в профиле</string>
+    <string name="NexaMusicBlock">Блок музыки в профиле</string>
+    <string name="NexaSettingsBannerInfo">Оформление, функции и разделы</string>
+    <string name="NexaPhoneShown">Ваш номер телефона</string>
+    <string name="NexaPhoneFull">Показывать полностью</string>
+    <string name="NexaPhoneCode">Только код страны</string>
+    <string name="NexaPhoneHidden">Скрыть</string>
+    <string name="NexaPhoneInfo">Как ваш номер показан в профиле и в шапке настроек. Удобно для скриншотов и стримов. Другие люди видят номер так, как разрешают настройки конфиденциальности.</string>
 </resources>

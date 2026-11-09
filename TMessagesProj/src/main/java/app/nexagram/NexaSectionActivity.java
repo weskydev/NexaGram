@@ -31,12 +31,15 @@ public class NexaSectionActivity extends UniversalFragment {
     private static final int ID_DESIGN_RESET = 4;
     private static final int ID_ROUND_VIDEO = 5;
     private static final int ID_SELECT_ALL = 6;
+    /** Phone modes use ids ID_PHONE_FIRST + NexaProfile.PHONE_*. */
+    private static final int ID_PHONE_FIRST = 10;
     /** Design switches use ids ID_DESIGN_FIRST + index in NexaDesign.ALL. */
     private static final int ID_DESIGN_FIRST = 100;
     private static final int[] DESIGN_TITLES = {
             R.string.NexaChatCards, R.string.NexaSquareAvatars, R.string.NexaPinnedTint,
             R.string.NexaAccentSearch, R.string.NexaTabBar, R.string.NexaDockedCompose,
-            R.string.NexaContactsDesign
+            R.string.NexaContactsDesign, R.string.NexaSettingsDesign, R.string.NexaProfileLine,
+            R.string.NexaMusicBlock
     };
 
     private final int section;
@@ -88,8 +91,12 @@ public class NexaSectionActivity extends UniversalFragment {
             items.add(UItem.asCheck(ID_SELECT_ALL, getString(R.string.NexaSelectAllChats)).setChecked(NexaSelectAll.isEnabled()));
             items.add(UItem.asShadow(getString(R.string.NexaSelectAllInfo)));
         } else {
-            // features for this section are on the way (see nexagram/FEATURES.md)
-            items.add(UItem.asShadow(getString(R.string.NexaFeaturesSoon)));
+            items.add(UItem.asHeader(getString(R.string.NexaPhoneShown)));
+            int mode = NexaProfile.phoneMode();
+            items.add(UItem.asRadio(ID_PHONE_FIRST + NexaProfile.PHONE_FULL, getString(R.string.NexaPhoneFull)).setChecked(mode == NexaProfile.PHONE_FULL));
+            items.add(UItem.asRadio(ID_PHONE_FIRST + NexaProfile.PHONE_CODE, getString(R.string.NexaPhoneCode)).setChecked(mode == NexaProfile.PHONE_CODE));
+            items.add(UItem.asRadio(ID_PHONE_FIRST + NexaProfile.PHONE_HIDDEN, getString(R.string.NexaPhoneHidden)).setChecked(mode == NexaProfile.PHONE_HIDDEN));
+            items.add(UItem.asShadow(getString(R.string.NexaPhoneInfo)));
         }
     }
 
@@ -108,6 +115,9 @@ public class NexaSectionActivity extends UniversalFragment {
             }
         } else if (item.id == ID_ROUND_VIDEO) {
             NexaDesign.set(NexaRoundVideo.KEY, !NexaRoundVideo.isEnabled());
+            listView.adapter.update(true);
+        } else if (item.id >= ID_PHONE_FIRST && item.id <= ID_PHONE_FIRST + NexaProfile.PHONE_HIDDEN) {
+            NexaProfile.setPhoneMode(item.id - ID_PHONE_FIRST);
             listView.adapter.update(true);
         } else if (item.id == ID_SELECT_ALL) {
             NexaDesign.set(NexaSelectAll.KEY, !NexaSelectAll.isEnabled());

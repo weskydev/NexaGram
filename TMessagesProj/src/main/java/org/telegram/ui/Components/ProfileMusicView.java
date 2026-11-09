@@ -77,6 +77,14 @@ public class ProfileMusicView extends View {
 
     private final ButtonBounce bounce = new ButtonBounce(this);
 
+    // NexaGram: a full-width block instead of the small pill (the balance next to it gets the same height)
+    private final boolean nexaBlockMode = app.nexagram.NexaProfile.musicBlock();
+    private final app.nexagram.NexaProfile.MusicBlock nexaBlock = nexaBlockMode && getClass() == ProfileMusicView.class ? new app.nexagram.NexaProfile.MusicBlock() : null;
+
+    private float nexaFade() {
+        return Utilities.clamp01(currentHeight / dp(nexaBlockMode ? 50 : 21));
+    }
+
     public ProfileMusicView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.resourcesProvider = resourcesProvider;
@@ -102,7 +110,7 @@ public class ProfileMusicView extends View {
                 MeasureSpec.EXACTLY
             ),
             MeasureSpec.makeMeasureSpec(
-                dp(37),
+                dp(37) + (nexaBlockMode ? app.nexagram.NexaProfile.musicExtra() : 0), // NexaGram
                 MeasureSpec.EXACTLY
             )
         );
@@ -217,6 +225,15 @@ public class ProfileMusicView extends View {
     public void setText(CharSequence author, CharSequence title) {
         this.author = new Text(author, 11, AndroidUtilities.bold());
         this.title = new Text(title, 11);
+        if (nexaBlock != null) { // NexaGram: song title on top, artist below
+            String t = title == null ? "" : title.toString();
+            if (t.startsWith(" - ")) t = t.substring(3);
+            if (TextUtils.isEmpty(t)) {
+                nexaBlock.setText(author, null);
+            } else {
+                nexaBlock.setText(t, author);
+            }
+        }
 
         setContentDescription(getString(R.string.AccDescrProfileMusic) + " " + author + " — " + title);
     }
@@ -255,7 +272,7 @@ public class ProfileMusicView extends View {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        final float alpha = Utilities.clamp01((currentHeight) / dp(21));
+        final float alpha = nexaFade(); // NexaGram
         if (alpha <= 0) return false;
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             bounce.setPressed(rect.contains(event.getX(), event.getY()));
@@ -299,6 +316,16 @@ public class ProfileMusicView extends View {
         canvas.drawPath(arrowPath, arrowPaint);
     }
 
+    private Drawable nexaNoteIcon; // NexaGram: white note on the accent tile
+
+    private Drawable nexaNote() {
+        if (nexaNoteIcon == null) {
+            nexaNoteIcon = getContext().getResources().getDrawable(R.drawable.files_music).mutate();
+            nexaNoteIcon.setColorFilter(filterColorWhite);
+        }
+        return nexaNoteIcon;
+    }
+
     private boolean hasVisibleCompanion() {
         ProfileMusicView companion = trailingView != null ? trailingView : leadingView;
         return companion != null && companion.getVisibility() == VISIBLE;
@@ -312,7 +339,7 @@ public class ProfileMusicView extends View {
     protected void onDraw(@NonNull Canvas canvas) {
         if (this.author == null || this.title == null) return;
 
-        final float alpha = Utilities.clamp01((currentHeight) / dp(21));
+        final float alpha = nexaFade(); // NexaGram
         final float scale = bounce.getScale(0.02f);
         if (alpha <= 0) {
             if (glass != null) {
@@ -331,21 +358,22 @@ public class ProfileMusicView extends View {
             ProfileMusicView trailing = trailingView != null ? trailingView : this;
             // Reserve the balance first so long song titles cannot push it offscreen.
             float trailingWidth = trailing.getPillWidth(maxWidth / 2f);
-            float leadingWidth = leading.getPillWidth(Math.max(0, maxWidth - trailingWidth - dp(6)));
+            float leadingWidth = nexaBlockMode ? Math.max(0, maxWidth - trailingWidth - dp(6)) : leading.getPillWidth(Math.max(0, maxWidth - trailingWidth - dp(6))); // NexaGram: block takes the rest
             left = (getWidth() - leadingWidth - dp(6) - trailingWidth) / 2f;
             containerWidth = leadingView != null ? trailingWidth : leadingWidth;
             if (leadingView != null) left += leadingWidth + dp(6);
         } else {
-            containerWidth = getPillWidth(maxWidth);
+            containerWidth = nexaBlockMode ? maxWidth : getPillWidth(maxWidth); // NexaGram
             left = (getWidth() - containerWidth) / 2f;
         }
 
-        rect.set(left, dp(10), left + containerWidth, dp(10) + dp(17) * alpha);
+        rect.set(left, dp(10), left + containerWidth, dp(10) + dp(nexaBlockMode ? app.nexagram.NexaProfile.MUSIC_BLOCK_DP : 17) * alpha); // NexaGram
+        final float nexaRadius = nexaBlockMode ? Math.min(rect.height() / 2f, dp(16)) : rect.height() / 2f;
         canvas.save();
         canvas.scale(scale, scale, rect.centerX(), getHeight() / 2f);
 
         if (glass != null) {
-            final float radius = rect.height() / 2f;
+            final float radius = nexaRadius; // NexaGram
             if (glassRadius != radius) {
                 glassRadius = radius;
                 glass.setRadius(radius);
@@ -358,7 +386,7 @@ public class ProfileMusicView extends View {
             backgroundPaint.setShadowLayer(0, 0, 0, 0);
             int wasAlpha = backgroundPaint.getAlpha();
             backgroundPaint.setAlpha((int) (wasAlpha * alpha * bgAlpha));
-            canvas.drawRoundRect(rect, rect.height() / 2f, rect.height() / 2f, backgroundPaint);
+            canvas.drawRoundRect(rect, nexaRadius, nexaRadius, backgroundPaint); // NexaGram
             backgroundPaint.setAlpha(wasAlpha);
             if (hasColorById && buttonColor != 0) {
                 if (radialGradient == null || radialGradientWidth != rect.width()) {
@@ -373,17 +401,24 @@ public class ProfileMusicView extends View {
                 matrix.setTranslate(rect.left, rect.top);
                 radialGradient.setLocalMatrix(matrix);
                 shaderPaint.setAlpha((int) (0xFF * alpha));
-                canvas.drawRoundRect(rect, rect.height() / 2f, rect.height() / 2f, shaderPaint);
+                canvas.drawRoundRect(rect, nexaRadius, nexaRadius, shaderPaint); // NexaGram
             }
         }
 
         clipPath.rewind();
-        clipPath.addRoundRect(rect, rect.height() / 2f, rect.height() / 2f, Path.Direction.CW);
+        clipPath.addRoundRect(rect, nexaRadius, nexaRadius, Path.Direction.CW); // NexaGram
 
         canvas.save();
         canvas.clipPath(clipPath);
+        if (nexaBlock != null) { // NexaGram
+            nexaBlock.draw(canvas, rect, nexaNote(), textColor, alpha);
+        } else if (nexaBlockMode) { // the balance next to the block: its content in the middle of the block
+            canvas.translate(rect.centerX() - (getContentWidth(rect.width() - dp(16)) ) / 2f, 0);
+            drawContent(canvas, alpha);
+        } else {
         canvas.translate(rect.left + dp(8), 0);
         drawContent(canvas, alpha);
+        }
 
         canvas.restore();
 

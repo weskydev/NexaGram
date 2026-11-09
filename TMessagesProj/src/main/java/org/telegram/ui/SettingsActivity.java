@@ -536,7 +536,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         if (username != null) {
             sb.append(" • @").append(username);
         }
-        subtitleView.setText(sb);
+        subtitleView.setText(app.nexagram.NexaProfile.settingsSubtitle(user, sb)); // NexaGram
 
         versionView.setText(getVersionName());
     }
@@ -714,6 +714,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     }
 
     private ArrayList<Integer> accountNumbers = new ArrayList<>();
+    private View nexaBanner; // NexaGram
+
     private void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         if (searchItem.isSearchFieldVisible2()) {
             items.add(UItem.asSpace(ActionBar.getCurrentActionBarHeight()));
@@ -722,6 +724,12 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         }
 
         items.add(UItem.asCustomShadow(topView, 200 - 12));
+        if (app.nexagram.NexaSettingsLook.isEnabled()) { // NexaGram: NexaGram card under the header
+            if (nexaBanner == null) {
+                nexaBanner = app.nexagram.NexaSettingsLook.banner(getContext(), () -> presentSettingFragment(new app.nexagram.NexaSettingsActivity()));
+            }
+            items.add(UItem.asCustomShadow(nexaBanner, app.nexagram.NexaSettingsLook.BANNER_HEIGHT_DP));
+        }
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
@@ -806,8 +814,10 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         items.add(SettingCell.Factory.of(10, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_language, getString(R.string.SettingsLanguage), LocaleController.getCurrentLanguageName()));
 
         items.add(UItem.asShadow(null));
-        items.add(SettingCell.Factory.of(app.nexagram.NexaSettingsActivity.SETTINGS_ROW_ID, 0xFF9B85FF, 0xFF6A4FF0, R.drawable.nexa_logo, getString(R.string.NexaSettings))); // NexaGram
-        items.add(UItem.asShadow(null)); // NexaGram
+        if (!app.nexagram.NexaSettingsLook.isEnabled()) { // NexaGram: the card above replaces this row
+            items.add(SettingCell.Factory.of(app.nexagram.NexaSettingsActivity.SETTINGS_ROW_ID, 0xFF9B85FF, 0xFF6A4FF0, R.drawable.nexa_logo, getString(R.string.NexaSettings)));
+            items.add(UItem.asShadow(null));
+        }
         if (!walletAbove && getMessagesController().config.walletAvailable.get()) {
             final GramWallet wallet = GramWallet.getInstance(currentAccount);
             items.add(SettingCell.Factory.of(25, 0, 0, Theme.isCurrentThemeDark() ? R.drawable.settings_wallet_dark : R.drawable.settings_wallet, TextCell.applyNewSpanTimed(getString(R.string.WalletAttachMoney), 1790679020), null, wallet.getBalance() > 0 ? GramWallet.formatGrams(wallet.getBalance()) : null));
@@ -1367,6 +1377,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
             iconBackground.setColor(iconColorTop, iconColorBottom);
             iconView.setImageResource(icon);
+            app.nexagram.NexaSettingsLook.tile(iconBackground, iconView, iconColorTop, iconColorBottom, icon, resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark()); // NexaGram
             titleView.setText(title);
             subtitleView.setVisibility((twoLines = !TextUtils.isEmpty(subtitle)) ? View.VISIBLE : View.GONE);
             subtitleView.setText(subtitle);
